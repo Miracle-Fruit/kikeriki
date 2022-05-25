@@ -1,0 +1,141 @@
+version: '3.8'
+
+# Custom top-level network
+networks:
+  neo4j-internal:
+
+services:
+
+  core1:
+    # Docker image to be used
+    \image: ${NEO4J_DOCKER_IMAGE}
+
+    # Hostname
+    hostname: core1
+
+    # Service-level network, which specifies the networks, from the list of the top-level networks (in this case only neo4j-internal), that the server will connect to.
+    # Adds a network alias (used in neo4j.conf when configuring the discovery members)
+    networks:
+      neo4j-internal:
+        aliases:
+          - neo4j-network
+
+    # The ports that will be accessible from outside the container - HTTP (7474) and Bolt (7687).
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+
+    # Uncomment the volumes to be mounted to make them accessible from outside the container.
+    volumes:
+      - ./neo4j.conf:/conf/neo4j.conf # This is the main configuration file.
+      - ./data/core1:/var/lib/neo4j/data
+      - ./logs/core1:/var/lib/neo4j/logs
+      - ./conf/core1:/var/lib/neo4j/conf
+      - ./import/core1:/var/lib/neo4j/import
+      #- ./metrics/core1:/var/lib/neo4j/metrics
+      #- ./licenses/core1:/var/lib/neo4j/licenses
+      #- ./ssl/core1:/var/lib/neo4j/ssl
+
+    # Passes the following environment variables to the container
+    environment:
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT
+      - NEO4J_AUTH
+      - EXTENDED_CONF
+      - NEO4J_EDITION
+      - NEO4J_dbms_mode=CORE
+
+    # Simple check testing whether the port 7474 is opened.
+    # If so, the instance running inside the container is considered as "healthy".
+    # This status can be checked using the "docker ps" command.
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+
+    # Set up the user
+    user: ${USER_ID}:${GROUP_ID}
+
+  core2:
+    \image: ${NEO4J_DOCKER_IMAGE}
+    hostname: core2
+    networks:
+      neo4j-internal:
+        aliases:
+          - neo4j-network
+    ports:
+      - "7475:7474"
+      - "7688:7687"
+    volumes:
+      - ./neo4j.conf:/conf/neo4j.conf
+      - ./data/core2:/var/lib/neo4j/data
+      - ./logs/core2:/var/lib/neo4j/logs
+      - ./conf/core2:/var/lib/neo4j/conf
+      - ./import/core2:/var/lib/neo4j/import
+      #- ./metrics/core2:/var/lib/neo4j/metrics
+      #- ./licenses/core2:/var/lib/neo4j/licenses
+      #- ./ssl/core2:/var/lib/neo4j/ssl
+    environment:
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT
+      - NEO4J_AUTH
+      - EXTENDED_CONF
+      - NEO4J_EDITION
+      - NEO4J_dbms_mode=CORE
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+    user: ${USER_ID}:${GROUP_ID}
+
+  core3:
+    \image: ${NEO4J_DOCKER_IMAGE}
+    hostname: core3
+    networks:
+      neo4j-internal:
+        aliases:
+          - neo4j-network
+    ports:
+      - "7476:7474"
+      - "7689:7687"
+    volumes:
+      - ./neo4j.conf:/conf/neo4j.conf
+      - ./data/core3:/var/lib/neo4j/data
+      - ./logs/core3:/var/lib/neo4j/logs
+      - ./conf/core3:/var/lib/neo4j/conf
+      - ./import/core3:/var/lib/neo4j/import
+      #- ./metrics/core3:/var/lib/neo4j/metrics
+      #- ./licenses/core3:/var/lib/neo4j/licenses
+      #- ./ssl/core3:/var/lib/neo4j/ssl
+    environment:
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT
+      - NEO4J_AUTH
+      - EXTENDED_CONF
+      - NEO4J_EDITION
+      - NEO4J_dbms_mode=CORE
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+    user: ${USER_ID}:${GROUP_ID}
+
+  readreplica1:
+    \image: ${NEO4J_DOCKER_IMAGE}
+    hostname: replica1
+    networks:
+      neo4j-internal:
+        aliases:
+          - neo4j-network
+    ports:
+      - "7477:7474"
+      - "7690:7687"
+    volumes:
+      - ./neo4j.conf:/conf/neo4j.conf
+      - ./data/replica1:/var/lib/neo4j/data
+      - ./logs/replica1:/var/lib/neo4j/logs
+      - ./conf/replica1:/var/lib/neo4j/conf
+      - ./import/replica1:/var/lib/neo4j/import
+      #- ./metrics/replica1:/var/lib/neo4j/metrics
+      #- ./licenses/replica1:/var/lib/neo4j/licenses
+      #- ./ssl/replica1:/var/lib/neo4j/ssl
+    environment:
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT
+      - NEO4J_AUTH
+      - EXTENDED_CONF
+      - NEO4J_EDITION
+      - NEO4J_dbms_mode=READ_REPLICA
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+    user: ${USER_ID}:${GROUP_ID}
