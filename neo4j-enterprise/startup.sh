@@ -1,3 +1,5 @@
+#!/usr/bin/bash -I
+
 export USER_ID="$(id -u)"
 export GROUP_ID="$(id -g)"
 export NEO4J_DOCKER_IMAGE=neo4j:4.4-enterprise
