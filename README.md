@@ -18,4 +18,7 @@ make neo4j-ent
 # Run Neo4j community edition (single instance)
 make neo4j-com
 
+# Run Cassandra Cluster with thrre nodes
+make cass
+
 ```
