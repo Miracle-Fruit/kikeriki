@@ -2,6 +2,9 @@
 
 networks:
   spaceandtime:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
 
 services:
   cass1:
@@ -15,12 +18,13 @@ services:
         timeout: 5s
         retries: 10
     networks:
-      - spaceandtime
+      spaceandtime:
+          ipv4_address: 172.20.0.6
     ports:
       - "9042:9042"
-    volumes:
-      - ./data/cass1:/var/lib/cassandra
-      - ./etc/cass1:/etc/cassandra
+    # volumes:
+    #   - ./data/cass1:/var/lib/cassandra
+    #   - ./etc/cass1:/etc/cassandra
     environment: &environment
         CASSANDRA_SEEDS: "cass1,cass2"
         CASSANDRA_CLUSTER_NAME: SolarSystem
@@ -40,12 +44,13 @@ services:
         timeout: 5s
         retries: 10
     networks:
-      - spaceandtime
+      spaceandtime:
+          ipv4_address: 172.20.0.7
     ports:
       - "9043:9042"
-    volumes:
-      - ./data/cass1:/var/lib/cassandra
-      - ./etc/cass1:/etc/cassandra
+    # volumes:
+    #   - ./data/cass1:/var/lib/cassandra
+    #   - ./etc/cass1:/etc/cassandra
     environment: *environment
     depends_on:
       cass1:
@@ -62,24 +67,26 @@ services:
         timeout: 5s
         retries: 10
     networks:
-      - spaceandtime
+      spaceandtime:
+          ipv4_address: 172.20.0.8
     ports:
       - "9044:9042"
-    volumes:
-      - ./data/cass1:/var/lib/cassandra
-      - ./etc/cass1:/etc/cassandra
+    # volumes:
+    #   - ./data/cass1:/var/lib/cassandra
+    #   - ./etc/cass1:/etc/cassandra
     environment: *environment
     depends_on:
       cass2:
         condition: service_started
 
   cassweb:
-    image: ruby:3.1.2 #latest stable version as of 31.05.2022
+    image: ruby:2.4.1 #latest stable version as of 31.05.2022
     container_name: cassweb
     hostname: cassweb
-    command: bash -c "gem install cassandra-web && cassandra-web --hosts 'cass1' --port '9042' --username 'cassandra' --password 'cassandra'"
+    command: bash -c "gem install cassandra-web && cassandra-web --hosts '172.20.0.6, 172.20.0.7, 172.20.0.8' --port '9042' --username 'cassandra' --password 'cassandra'"
     networks:
-      - spaceandtime
+      spaceandtime:
+          ipv4_address: 172.20.0.9
     ports:
       - "3000:3000"
     depends_on:
