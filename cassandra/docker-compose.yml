@@ -19,7 +19,8 @@ services:
     ports:
       - "9042:9042"
     volumes:
-      - ~/data:/var/lib/cassandra
+      - ./data/cass1:/var/lib/cassandra
+      - ./etc/cass1:/etc/cassandra
     environment: &environment
         CASSANDRA_SEEDS: "cass1,cass2"
         CASSANDRA_CLUSTER_NAME: SolarSystem
@@ -43,11 +44,12 @@ services:
     ports:
       - "9043:9042"
     volumes:
-      - ~/data:/var/lib/cassandra
+      - ./data/cass1:/var/lib/cassandra
+      - ./etc/cass1:/etc/cassandra
     environment: *environment
     depends_on:
       cass1:
-        condition: service_healthy
+        condition: service_started
   
   cass3:
     image: cassandra:4.0.4 #latest lts version as of 31.05.2022
@@ -64,11 +66,12 @@ services:
     ports:
       - "9044:9042"
     volumes:
-      - ~/data:/var/lib/cassandra
+      - ./data/cass1:/var/lib/cassandra
+      - ./etc/cass1:/etc/cassandra
     environment: *environment
     depends_on:
       cass2:
-        condition: service_healthy
+        condition: service_started
 
   cassweb:
     image: ruby:3.1.2 #latest stable version as of 31.05.2022
@@ -81,8 +84,8 @@ services:
       - "3000:3000"
     depends_on:
       cass1:
-        condition: service_healthy
+        condition: service_started
       cass2:
-        condition: service_healthy
+        condition: service_started
       cass3:
-        condition: service_healthy
+        condition: service_started
