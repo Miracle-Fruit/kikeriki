@@ -51,7 +51,7 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 
 ![](architecture.png)
 
-### Lessons Learned
+### Problems & Lessons Learned
 
 * Neo4j community does not support clustering
 * Neo4j enterprise is complex to setup and we were not able to make it run
@@ -59,3 +59,22 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 * Container IP addresses need to be set static in order for cassandra-web to find them
 * Import of tweets is challenges to find a suitable data type for primary key
 * cassandra-web requires older ruby version >3 seems to cause problems
+* cassandra configuration yaml file and volume mapping
+* Execution of startup script to run cql commands is not working: `Connection error: ('Unable to connect to any servers', {'172.20.0.6:9042': ConnectionRefusedError(111, "Tried connecting to [('172.20.0.6', 9042)]. Last error: Connection refused")})`
+
+### Queries
+
+1. Auflisten der Posts, die von einem Account gemacht wurden, bzw. ihm zugeordnet wurden
+
+`SELECT * FROM twitter.tweets WHERE author='katyperry' ALLOW FILTERING;`
+
+![](example_query_1.png)
+
+2. Finden der 100 Accounts mit den meisten Followern
+3. Finden der 100 Accounts, die den meisten der Accounts folgen, die in 1) gefunden wurden
+4. Auflisten der Informationen für die persönliche Startseite eines beliebigen Accounts (am besten mit den in 2) gefundenen Accounts ausprobieren; die Startseite soll Folgendes beinhalten (als getrennte Queries umsetzen):
+* die Anzahl der Follower
+* die Anzahl der verfolgten Accounts
+* wahlweise die 25 neusten oder die 25 beliebtesten Posts der verfolgten Accounts (per DB-Abfrage)
+5. Caching der Posts für die Startseite (vgl. 4), erfordert einen sog. Fan-Out in den Cache jedes Followers beim Schreiben eines neuen Posts 
+6. Auflisten der 25 beliebtesten Posts, die ein geg. Wort enthalten (falls möglich auch mit UND-Verknüpfung mehrerer Worte)

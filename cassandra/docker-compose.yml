@@ -22,7 +22,8 @@ services:
           ipv4_address: 172.20.0.6
     ports:
       - "9042:9042"
-    # volumes:
+    #volumes:
+    #  - ./startup:/tmp/startup
     #   - ./data/cass1:/var/lib/cassandra
     #   - ./etc/cass1:/etc/cassandra
     environment: &environment
@@ -33,6 +34,7 @@ services:
         CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
         CASSANDRA_NUM_TOKENS: 128
     restart: always
+    #command: bash -c "chmod 755 tmp/startup/setup/setup_db.sh && ./tmp/startup/setup/setup_db.sh"
   
   cass2:
     image: cassandra:4.0.4 #latest lts version as of 31.05.2022
@@ -49,7 +51,8 @@ services:
           ipv4_address: 172.20.0.7
     ports:
       - "9043:9042"
-    # volumes:
+    #volumes:
+    #  - ./startup:/tmp/startup
     #   - ./data/cass1:/var/lib/cassandra
     #   - ./etc/cass1:/etc/cassandra
     environment: *environment
@@ -57,6 +60,7 @@ services:
       cass1:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
     restart: always
+    #command: bash -c "chmod 755 tmp/startup/setup/setup_db.sh && ./tmp/startup/setup/setup_db.sh"
   
   cass3:
     image: cassandra:4.0.4 #latest lts version as of 31.05.2022
