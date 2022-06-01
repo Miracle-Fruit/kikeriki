@@ -4,7 +4,7 @@ networks:
   spaceandtime:
     ipam:
       config:
-        - subnet: 172.20.0.0/24
+        - subnet: 172.20.0.0/24 # static ip management required for cassandra web, as this does not work with dns
 
 services:
   cass1:
