@@ -1,0 +1,1 @@
+SELECT * FROM twitter.tweets WHERE author='katyperry' ALLOW FILTERING;

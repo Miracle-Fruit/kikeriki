@@ -1,2 +1,0 @@
-CREATE TABLE twitter.tweetsss(author text, content text, country text, date_time text, id bigint PRIMARY KEY, language text, latitude text, longitude text, number_of_likes text, number_of_shares text);
-COPY twitter.tweetsss (author,content,country,date_time,id,language,latitude,longitude,number_of_likes,number_of_shares) FROM 'tweets.csv' WITH DELIMITER=',' AND HEADER=TRUE;

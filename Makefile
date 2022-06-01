@@ -17,3 +17,4 @@ neo4j-com: ## Run Neo4j Community trough Docker Compose
 
 cass: ## Run Cassandra Cluster trough Docker Compose
 	docker-compose -f $(DC_CASSANDRA) up -d
+	./cassandra/scripts/setup_db.sh
