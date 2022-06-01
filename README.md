@@ -1,4 +1,4 @@
-# distributed-nosqldb
+# Social Network with Distributed NoSQL DBs
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Miracle-Fruit/distributed-nosqldb)
 
@@ -7,7 +7,9 @@
 * Neo4j clustering is only avavilable in the enterprise edition (30 day trial available). Documentation for Docker Compose with enterprise edition: https://neo4j.com/docs/operations-manual/current/docker/clustering/
 * Alternativley we can use ONgDB: https://www.graphfoundation.org/ongdb/ (a fork from the old Neo4j enterprise edition) or Casandra?
 
-## Run
+## Documentation
+
+### How to run it manually
 
 The Makefile allows to run different setups:
 
@@ -23,7 +25,7 @@ make cass
 
 ```
 
-# Cassandra
+### Cassandra Details
 
 Cassandra Cluster with three nodes can be accssed via web interface at http://localhost:3000/
 
@@ -44,3 +46,14 @@ ID cannot be imported as number, the following error occours:
 Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid literal for int() with base 10: '5.34896E+17',  given up without retries
 'builtin_function_or_method' object has no attribute 'error'
 ```
+
+### Architecture
+
+![](architecture.png)
+
+### Lessons Learned
+
+* Neo4j community does not support clustering
+* Neo4j enterprise is complex to setup and we were not able to make it run
+* Cassandra cluster with docker compose startup `service_healthy` check sometimes fails, so constant restart is the best option until all nodes including the web interface are up and running
+* Import of tweets is challenges to find a suitable data type for primary key
