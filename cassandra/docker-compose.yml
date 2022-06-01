@@ -104,3 +104,19 @@ services:
       cass3:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
     restart: always
+
+  node:
+    image: node:18.2.0
+    container_name: node
+    hostname: node
+    volumes:
+      - ./frontend:/frontend
+    networks:
+      spaceandtime:
+          ipv4_address: 172.20.0.10
+    ports:
+      - "8080:80"
+    restart: always
+    command: bash -c "npm install & npm start"
+
+
