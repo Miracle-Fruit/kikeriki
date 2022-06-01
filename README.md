@@ -57,3 +57,4 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 * Neo4j enterprise is complex to setup and we were not able to make it run
 * Cassandra cluster with docker compose startup `service_healthy` check sometimes fails, so constant restart is the best option until all nodes including the web interface are up and running
 * Import of tweets is challenges to find a suitable data type for primary key
+* cassandra-web requires older ruby version >3 seems to cause problems
