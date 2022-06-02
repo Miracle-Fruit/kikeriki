@@ -9,7 +9,11 @@
 
 ## Documentation
 
-### How to run it manually
+### Architecture
+
+![](architecture.png)
+
+### Makefile
 
 The Makefile allows to run different setups:
 
@@ -22,10 +26,13 @@ make neo4j-com
 
 # Run Cassandra Cluster with thrre nodes
 make cass
-
 ```
 
-### Cassandra Details
+### React Frontend
+
+The frontend is build with [Create React App](https://github.com/facebook/create-react-app).
+
+### Cassandra Cluster
 
 Cassandra Cluster with three nodes can be accssed via web interface at http://localhost:3000/
 
@@ -47,11 +54,7 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 'builtin_function_or_method' object has no attribute 'error'
 ```
 
-### Architecture
-
-![](architecture.png)
-
-### Problems & Lessons Learned
+## Problems & Lessons Learned
 
 * Neo4j community does not support clustering
 * Neo4j enterprise is complex to setup and we were not able to make it run
@@ -62,7 +65,7 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 * cassandra configuration yaml file and volume mapping
 * Execution of startup script to run cql commands is not working: `Connection error: ('Unable to connect to any servers', {'172.20.0.6:9042': ConnectionRefusedError(111, "Tried connecting to [('172.20.0.6', 9042)]. Last error: Connection refused")})`
 
-### Queries
+## Social Media Queries
 
 1. Auflisten der Posts, die von einem Account gemacht wurden, bzw. ihm zugeordnet wurden
 
