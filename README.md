@@ -1,3 +1,5 @@
+![](https://github.com/Miracle-Fruit/distributed-nosqldb/actions/workflows/node.js.yml/badge.svg)
+
 # Social Network with Distributed NoSQL DBs
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Miracle-Fruit/distributed-nosqldb)
