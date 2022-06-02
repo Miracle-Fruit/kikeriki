@@ -6,6 +6,10 @@ name: Node.js CI
 on:
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: cassandra/app
+
 jobs:
   build:
 
@@ -23,6 +27,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: cd cassandra/app && npm ci
-    - run: cd cassandra/app && npm run build --if-present
-    - run: cd cassandra/app && npm test
+    - run: npm ci
+    - run: cd npm run build --if-present
+    - run: cd npm test
