@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: cassandra/app
+    working-directory: ./cassandra/app
 
 jobs:
   build:
@@ -27,6 +27,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: ./cassandra/app/package-lock.json
     - run: npm ci
     - run: cd npm run build --if-present
     - run: cd npm test
