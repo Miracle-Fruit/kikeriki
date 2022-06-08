@@ -28,7 +28,7 @@ services:
     environment: &environment
         MAX_HEAP_SIZE: 1024M
         HEAP_NEWSIZE: 1024M
-        CASSANDRA_SEEDS: "cass1,cass2"
+        CASSANDRA_SEEDS: "cass1,cass2,cass3"
         CASSANDRA_CLUSTER_NAME: SolarSystem
         CASSANDRA_DC: HSMA
         CASSANDRA_RACK: A212
@@ -116,5 +116,5 @@ services:
           ipv4_address: 172.20.0.10
     ports:
       - "3001:3000"
-    restart: always
-    command: bash -c "cd app && npm start"
+    # restart: always
+    # command: bash -c "cd app && npm start"
