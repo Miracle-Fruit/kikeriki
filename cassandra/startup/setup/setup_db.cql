@@ -14,3 +14,13 @@ number_of_shares text,
 PRIMARY KEY ((id),author,date_time));
 
 COPY twitter.tweets (author,content,country,date_time,id,language,latitude,longitude,number_of_likes,number_of_shares) FROM '/tmp/startup/data/tweets.csv' WITH DELIMITER=',' AND HEADER=TRUE;
+
+CREATE TABLE twitter.user(
+user_id bigint,
+follows set<bigint>,
+follower set<bigint>,
+name text,
+PRIMARY KEY(user_id)
+);
+
+COPY twitter.user (user_id,follows,follower) FROM '/tmp/startup/data/twitter_combined.txt' WITH DELIMITER=',' AND HEADER=TRUE;
