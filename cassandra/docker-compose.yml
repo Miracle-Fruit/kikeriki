@@ -118,3 +118,28 @@ services:
       - "3001:3000"
     # restart: always
     # command: bash -c "cd app && npm start"
+
+  startup_client:
+    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
+    container_name: startup_client
+    hostname: startup_client
+    healthcheck:
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 10s
+        retries: 10
+    networks:
+      spaceandtime:
+          ipv4_address: 172.20.0.11
+    volumes:
+      - ./cqlsh:/root/.cassandra
+      - ./startup:/tmp/startup
+    environment: *environment
+    depends_on:
+      cass1:
+        condition: service_healthy # service_healthy --> sometimes not working, alternativly restart always policy below
+      cass2:
+        condition: service_healthy # service_healthy --> sometimes not working, alternativly restart always policy below
+      cass3:
+        condition: service_healthy
+    command: cqlsh cass1 -f /tmp/startup/setup/setup_db.cql
