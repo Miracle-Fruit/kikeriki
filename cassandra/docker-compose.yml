@@ -11,7 +11,6 @@ services:
     image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass1
     hostname: cass1
-    mem_limit: 2g
     healthcheck:
         test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
         interval: 5s
@@ -27,10 +26,12 @@ services:
     #   - ./data/cass1:/var/lib/cassandra
     #   - ./etc/cass1:/etc/cassandra
     environment: &environment
+        MAX_HEAP_SIZE: 1024M
+        HEAP_NEWSIZE: 1024M
         CASSANDRA_SEEDS: "cass1,cass2"
         CASSANDRA_CLUSTER_NAME: SolarSystem
-        CASSANDRA_DC: Mars
-        CASSANDRA_RACK: West
+        CASSANDRA_DC: HSMA
+        CASSANDRA_RACK: A212
         CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
         CASSANDRA_NUM_TOKENS: 128
     restart: always
@@ -40,7 +41,6 @@ services:
     image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass2
     hostname: cass2
-    mem_limit: 2g
     healthcheck:
         test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
         interval: 5s
@@ -66,7 +66,6 @@ services:
     image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass3
     hostname: cass3
-    mem_limit: 2g
     healthcheck:
         test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
         interval: 5s

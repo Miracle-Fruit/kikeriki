@@ -16,4 +16,5 @@ neo4j-com: ## Run Neo4j Community trough Docker Compose
 	docker-compose -f $(DC_NEO4J_COM) up -d
 
 cass: ## Run Cassandra Cluster trough Docker Compose
-	docker-compose -f $(DC_CASSANDRA) up -d
+	npm install cassandra/app/
+	docker-compose -f $(DC_CASSANDRA) up -d 
