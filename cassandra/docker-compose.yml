@@ -2,96 +2,100 @@
 
 networks:
   spaceandtime:
-    driver: bridge
-
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24 # static ip management required for cassandra web, as this does not work with dns
 
 services:
   cass1:
+    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass1
     hostname: cass1
-    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
+    healthcheck:
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 5s
+        retries: 10
     networks:
-      - spaceandtime
+      spaceandtime:
+          ipv4_address: 172.20.0.6
     ports:
-      - 9042:9042
-      - 7000:7000
+      - "9042:9042"
     volumes:
-    - ./cqlsh:/root/.cassandra
-    - ./startup:/tmp/startup
-    - ./data/cass2:/var/lib/cassandra
-    # - ./etc/cass2:/etc/cassandra
-    environment:
-      - CASSANDRA_SEEDS=cass1,cass2,cass3
-      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
-      - CASSANDRA_NUM_TOKENS=128
-      - CASSANDRA_PASSWORD_SEEDER=yes
-      - CASSANDRA_PASSWORD=cassandra
-      - MAX_HEAP_SIZE=2G
-      - HEAP_NEWSIZE=200M
-
+      - ./cqlsh:/root/.cassandra
+      - ./startup:/tmp/startup
+      - ./data/cass1:/var/lib/cassandra
+    environment: &environment
+        MAX_HEAP_SIZE: 1024M
+        HEAP_NEWSIZE: 1024M
+        CASSANDRA_SEEDS: "cass1,cass2"
+        CASSANDRA_CLUSTER_NAME: SolarSystem
+        CASSANDRA_DC: HSMA
+        CASSANDRA_RACK: A212
+        CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+        CASSANDRA_NUM_TOKENS: 128
+    restart: always
+    #command: bash -c "chmod 755 tmp/startup/setup/setup_db.sh && ./tmp/startup/setup/setup_db.sh"
   
   cass2:
+    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass2
     hostname: cass2
-    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
+    healthcheck:
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 5s
+        retries: 10
     networks:
-      - spaceandtime
+      spaceandtime:
+          ipv4_address: 172.20.0.7
     ports:
-      - 9043:9042
-      - 7001:7000
-
+      - "9043:9042"
     volumes:
-    - ./cqlsh:/root/.cassandra
-    - ./startup:/tmp/startup
-    - ./data/cass1:/var/lib/cassandra
-    environment:
-      - CASSANDRA_SEEDS=cass1,cass2,cass3
-      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
-      - CASSANDRA_NUM_TOKENS=128
-      - CASSANDRA_PASSWORD=cassandra
-      - MAX_HEAP_SIZE=2G
-      - HEAP_NEWSIZE=200M
+      - ./cqlsh:/root/.cassandra
+      - ./startup:/tmp/startup
+      - ./data/cass2:/var/lib/cassandra
+    environment: *environment
     depends_on:
       cass1:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
+    restart: always
     #command: bash -c "chmod 755 tmp/startup/setup/setup_db.sh && ./tmp/startup/setup/setup_db.sh"
   
   cass3:
+    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass3
     hostname: cass3
-    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
+    healthcheck:
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 5s
+        retries: 10
     networks:
-      - spaceandtime
+      spaceandtime:
+          ipv4_address: 172.20.0.8
     ports:
-      - 9044:9042
-      - 7002:7000    
+      - "9044:9042"
     volumes:
-    - ./cqlsh:/root/.cassandra
-    - ./startup:/tmp/startup
-    - ./data/cass3:/var/lib/cassandra
-    # - ./etc/cass3:/etc/cassandra
-    environment:
-      - CASSANDRA_SEEDS=cass1,cass2,cass3
-      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
-      - CASSANDRA_PASSWORD=cassandra
-      - CASSANDRA_NUM_TOKENS=128
-      - MAX_HEAP_SIZE=2G
-      - HEAP_NEWSIZE=200M
+      - ./cqlsh:/root/.cassandra
+      - ./startup:/tmp/startup
+      - ./data/cass3:/var/lib/cassandra
+    environment: *environment
     depends_on:
       cass2:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
+    restart: always
 
-  startup_client:
-    container_name: client
-    hostname: client
-    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
+  cassweb:
+    image: ruby:2.4.1 #latest stable version as of 31.05.2022
+    container_name: cassweb
+    hostname: cassweb
+    command: bash -c "gem install cassandra-web && cassandra-web --hosts '172.20.0.6, 172.20.0.7, 172.20.0.8' --port '9042' --username 'cassandra' --password 'cassandra'"
     networks:
-      - spaceandtime    
-    volumes:
-    - ./cqlsh:/root/.cassandra
-    - ./startup:/tmp/startup
-    - ./data/cass3:/var/lib/cassandra
-    # - ./etc/cass3:/etc/cassandra
+      spaceandtime:
+          ipv4_address: 172.20.0.9
+    ports:
+      - "3000:3000"
     depends_on:
       cass1:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
@@ -99,5 +103,18 @@ services:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
       cass3:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
-    
-    command: bash -c "cqlsh cass1 -f ./tmp/startup/setup/setup_db.cql"
+    restart: always
+
+  node:
+    image: node:18.2.0
+    container_name: node
+    hostname: node
+    volumes:
+      - ./app:/app
+    networks:
+      spaceandtime:
+          ipv4_address: 172.20.0.10
+    ports:
+      - "3001:3000"
+    restart: always
+    command: bash -c "cd app && npm start"
