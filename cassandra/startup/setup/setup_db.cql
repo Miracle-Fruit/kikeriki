@@ -11,9 +11,10 @@ latitude text,
 longitude text, 
 number_of_likes text, 
 number_of_shares text,
-PRIMARY KEY ((id),author,date_time));
+author_id bigint,
+PRIMARY KEY ((id),author_id,date_time));
 
-COPY twitter.tweets (author,content,country,date_time,id,language,latitude,longitude,number_of_likes,number_of_shares) FROM '/tmp/startup/data/tweets.csv' WITH DELIMITER=',' AND HEADER=TRUE;
+COPY twitter.tweets (author,content,country,date_time,id,language,latitude,longitude,number_of_likes,number_of_shares, author_id) FROM '/tmp/startup/data/tweets.csv' WITH DELIMITER=',' AND HEADER=TRUE;
 
 CREATE TABLE twitter.user(
 user_id bigint,
@@ -23,4 +24,4 @@ name text,
 PRIMARY KEY(user_id)
 );
 
-COPY twitter.user (user_id,follows,follower) FROM '/tmp/startup/data/twitter_combined.txt' WITH DELIMITER=',' AND HEADER=TRUE;
+COPY twitter.user (user_id,follows,follower,name) FROM '/tmp/startup/data/twitter_combined.txt' WITH DELIMITER=',' AND HEADER=TRUE;
