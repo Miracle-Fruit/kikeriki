@@ -28,7 +28,7 @@ services:
     environment: &environment
         MAX_HEAP_SIZE: 1024M
         HEAP_NEWSIZE: 1024M
-        CASSANDRA_SEEDS: "cass1,cass2,cass3"
+        CASSANDRA_SEEDS: "cass1,cass2"
         CASSANDRA_CLUSTER_NAME: SolarSystem
         CASSANDRA_DC: HSMA
         CASSANDRA_RACK: A212
