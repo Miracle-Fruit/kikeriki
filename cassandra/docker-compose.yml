@@ -100,4 +100,4 @@ services:
     ports:
       - "3001:3000"
     restart: always
-    command: bash -c "cd app && && npm start"
+    command: bash -c "cd app && npm start"
