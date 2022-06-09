@@ -8,7 +8,7 @@ networks:
 
 services:
   cass1:
-    image: bitnami/cassandra:4.0 #latest lts version as of 31.05.2022
+    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass1
     hostname: cass1
     healthcheck:
@@ -35,10 +35,9 @@ services:
         CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
         CASSANDRA_NUM_TOKENS: 128
     restart: always
-    #command: bash -c "chmod 755 tmp/startup/setup/setup_db.sh && ./tmp/startup/setup/setup_db.sh"
   
   cass2:
-    image: bitnami/cassandra:4.0 #latest lts version as of 31.05.2022
+    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass2
     hostname: cass2
     healthcheck:
@@ -60,10 +59,9 @@ services:
       cass1:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
     restart: always
-    #command: bash -c "chmod 755 tmp/startup/setup/setup_db.sh && ./tmp/startup/setup/setup_db.sh"
   
   cass3:
-    image: bitnami/cassandra:4.0 #latest lts version as of 31.05.2022
+    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass3
     hostname: cass3
     healthcheck:
@@ -143,5 +141,3 @@ services:
       cass3:
         condition: service_healthy
     command: cqlsh cass1 -f /tmp/startup/setup/setup_db.cql
-    restart: always
-    command: bash -c "cd app && && npm start"
