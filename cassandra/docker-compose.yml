@@ -143,5 +143,3 @@ services:
       cass3:
         condition: service_healthy
     command: cqlsh cass1 -f /tmp/startup/setup/setup_db.cql
-    restart: always
-    command: bash -c "cd app && && npm start"
