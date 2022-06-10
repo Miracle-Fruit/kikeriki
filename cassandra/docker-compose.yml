@@ -11,11 +11,11 @@ services:
     image: cassandra:4.0.4 #latest lts version as of 31.05.2022
     container_name: cass1
     hostname: cass1
-    healthcheck:
-        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
-        interval: 5s
-        timeout: 5s
-        retries: 10
+#    healthcheck:
+#        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+#        interval: 5s
+#        timeout: 5s
+#        retries: 10
     networks:
       spaceandtime:
           ipv4_address: 172.20.0.6
