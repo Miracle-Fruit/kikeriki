@@ -1,0 +1,9 @@
+;; Setting for cqlsh can be found https://docs.datastax.com/en/dse/5.1/cql/cql/cql_reference/cqlsh_commands/cqlshCqlshrc.html
+[ui]
+;; Used for displaying timestamps (and reading them with COPY)
+time_format = %d/%m/%Y %H:%M
+[copy]
+ESCAPE = \
+QUOTE = "
+[copy-from]
+CHUNKSIZE=1
