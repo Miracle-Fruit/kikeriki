@@ -139,5 +139,5 @@ services:
       cass2:
         condition: service_started # service_healthy --> sometimes not working, alternativly restart always policy below
       cass3:
-        condition: service_healthy
+        condition: service_started
     command: cqlsh cass1 -f /tmp/startup/setup/setup_db.cql
