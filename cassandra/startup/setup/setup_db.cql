@@ -1,4 +1,4 @@
-CREATE KEYSPACE twitter WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
+CREATE KEYSPACE twitter WITH replication = {'class':'NetworkTopologyStrategy', 'replication_factor' : 3};
 
 CREATE TABLE twitter.tweets(
 author text, 
