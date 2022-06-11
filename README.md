@@ -1,4 +1,4 @@
-[![CI](https://github.com/Miracle-Fruit/distributed-nosqldb/actions/workflows/main.yml/badge.svg)](https://github.com/Miracle-Fruit/distributed-nosqldb/actions/workflows/main.yml)
+[![CI](https://github.com/Miracle-Fruit/distributed-nosqldb/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/Miracle-Fruit/distributed-nosqldb/actions/workflows/main.yml)
 
 # Kikeriki - Social Network with Cassandra and React run in Docker 
 
