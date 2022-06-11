@@ -1,6 +1,6 @@
 ![](https://github.com/Miracle-Fruit/distributed-nosqldb/actions/workflows/node.js.yml/badge.svg)
 
-# Kikeriki :rooster - Social Network with Cassandra and React run in Docker
+# Kikeriki - Social Network with Cassandra and React run in Docker
 
 ![logo](logo.jpg)
 
@@ -15,7 +15,7 @@
 
 ### Architecture
 
-![](architecture.png)
+![](architecture-infra.png)
 
 ### Makefile
 
@@ -66,7 +66,7 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 
 * Splitting the preexisting tables into the following structure:
 
-![Cassandra Setup](cassandra.png)
+![Cassandra Infra](architecture-cass.png)
 
 * Optimze for read over write: `[..] WITH compaction = {'class' : 'LeveledCompactionStrategy'};`
 * Formula for replication factor: [read-consistency-level] + [write-consistency-level] > [replication-factor]

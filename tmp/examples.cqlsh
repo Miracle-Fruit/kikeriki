@@ -141,4 +141,3 @@ BEGIN BATCH
 APPLY BATCH;
 
 SELECT * FROM learn_cassandra.todos_shared_by_target_user_email WHERE target_user_email='bob@email.com';
-
