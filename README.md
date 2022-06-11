@@ -60,6 +60,14 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 'builtin_function_or_method' object has no attribute 'error'
 ```
 
+#### Optimizing Cassandra Performance
+
+![Cassandra Setup](cassandra.png)
+
+* Optimze for read over write: `[..] WITH compaction = {'class' : 'LeveledCompactionStrategy'};`
+* Formula for replication factor: [read-consistency-level] + [write-consistency-level] > [replication-factor]
+* Pre-sort data: `CLUSTERING ORDER BY (number_of_likes ASC);`
+
 ## Problems & Lessons Learned
 
 * Neo4j community does not support clustering
