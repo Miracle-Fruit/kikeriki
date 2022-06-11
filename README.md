@@ -40,6 +40,10 @@ Cassandra Cluster with three nodes can be accssed via web interface at http://lo
 
 *Note: health checks are not working corrtly at the moment, may be necessary to reboot containers manually!*
 
+**Useful commands:**
+* `docker exec cass1 nodetool status` (status check) --> UN = Up and Normal
+* `docker exec -it cass1 cqlsh` (open cqlsh)
+
 ![](cassandra-web.png)
 
 ```bash
@@ -83,3 +87,7 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 * wahlweise die 25 neusten oder die 25 beliebtesten Posts der verfolgten Accounts (per DB-Abfrage)
 5. Caching der Posts für die Startseite (vgl. 4), erfordert einen sog. Fan-Out in den Cache jedes Followers beim Schreiben eines neuen Posts 
 6. Auflisten der 25 beliebtesten Posts, die ein geg. Wort enthalten (falls möglich auch mit UND-Verknüpfung mehrerer Worte)
+
+## Gitpod Setup
+
+Gitpod starts with executing `make cass` and then opens two browser windows for Cassandra Web and the Frontend Website. Due to developement reasons this is currently disabled and needs to be started manually.
