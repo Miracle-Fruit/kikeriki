@@ -1,0 +1,10 @@
+.mainpage {
+    display: flex;
+    flex-direction: row;
+    align-content: center
+}
+
+.sidebar {
+    background-color: beige;
+    flex-grow: 2;
+}
