@@ -1,6 +1,8 @@
 ![](https://github.com/Miracle-Fruit/distributed-nosqldb/actions/workflows/node.js.yml/badge.svg)
 
-# Social Network with Distributed NoSQL DBs
+# Kikeriki :rooster - Social Network with Cassandra and React run in Docker
+
+![logo](logo.jpg)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Miracle-Fruit/distributed-nosqldb)
 
@@ -61,6 +63,8 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 ```
 
 #### Optimizing Cassandra Performance
+
+* Splitting the preexisting tables into the following structure:
 
 ![Cassandra Setup](cassandra.png)
 
