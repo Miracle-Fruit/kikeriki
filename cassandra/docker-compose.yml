@@ -26,6 +26,7 @@ services:
       - ./cqlsh:/root/.cassandra
       - ./startup:/tmp/startup
       - ./data/cass1:/var/lib/cassandra
+      - ./etc/cass1:/etc/cassandra
     environment: &environment
         MAX_HEAP_SIZE: 1024M
         HEAP_NEWSIZE: 1024M
@@ -56,6 +57,7 @@ services:
       - ./cqlsh:/root/.cassandra
       - ./startup:/tmp/startup
       - ./data/cass2:/var/lib/cassandra
+      - ./etc/cass2:/etc/cassandra
     environment: *environment
     depends_on:
       cass1:
@@ -81,6 +83,7 @@ services:
       - ./cqlsh:/root/.cassandra
       - ./startup:/tmp/startup
       - ./data/cass3:/var/lib/cassandra
+      - ./etc/cass3:/etc/cassandra
     environment: *environment
     depends_on:
       cass2:
@@ -97,6 +100,8 @@ services:
     volumes:
       - ./cqlsh:/root/.cassandra
       - ./startup:/tmp/startup
+      - ./data/cass_startup_client:/var/lib/cassandra
+      - ./etc/cass_startup_client:/etc/cassandra
     environment: *environment
     depends_on:
       cass1:
