@@ -1,7 +1,6 @@
 import React from "react";
 import "./Sidebar.css";
 import SidebarOption from "./SidebarOption";
-import { ReactComponent as Logo } from '../Images/logo2.svg';
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
@@ -11,7 +10,7 @@ import { Button } from "@mui/material";
 function Sidebar() {
   return (
     <div className="sidebar">
-      <Logo class="sidebar__twitterIcon" />
+      <img src="/logo.svg" alt="Bird" class="sidebar__twitterIcon" />
 
       <SidebarOption Icon={HomeIcon} text="Home" active={true} />
       <SidebarOption Icon={SearchIcon} text="Explore" />
@@ -19,7 +18,7 @@ function Sidebar() {
       <SidebarOption Icon={MoreHorizIcon} text="More" />
 
       <Button variant="outlined" className="sidebar__tweet" fullWidth>
-        Tweet
+      Kikeriki 
       </Button>
     </div>
   );
