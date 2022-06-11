@@ -1,6 +1,8 @@
 ![](https://github.com/Miracle-Fruit/distributed-nosqldb/actions/workflows/node.js.yml/badge.svg)
 
-# Social Network with Distributed NoSQL DBs
+# Kikeriki - Social Network with Cassandra and React run in Docker
+
+![logo](logo.jpg)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Miracle-Fruit/distributed-nosqldb)
 
@@ -13,7 +15,7 @@
 
 ### Architecture
 
-![](architecture.png)
+![](architecture-infra.png)
 
 ### Makefile
 
@@ -40,6 +42,10 @@ Cassandra Cluster with three nodes can be accssed via web interface at http://lo
 
 *Note: health checks are not working corrtly at the moment, may be necessary to reboot containers manually!*
 
+**Useful commands:**
+* `docker exec cass1 nodetool status` (status check) --> UN = Up and Normal
+* `docker exec -it cass1 cqlsh` (open cqlsh)
+
 ![](cassandra-web.png)
 
 ```bash
@@ -55,6 +61,16 @@ ID cannot be imported as number, the following error occours:
 Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid literal for int() with base 10: '5.34896E+17',  given up without retries
 'builtin_function_or_method' object has no attribute 'error'
 ```
+
+#### Optimizing Cassandra Performance
+
+* Splitting the preexisting tables into the following structure:
+
+![Cassandra Infra](architecture-cass.png)
+
+* Optimze for read over write: `[..] WITH compaction = {'class' : 'LeveledCompactionStrategy'};`
+* Formula for replication factor: [read-consistency-level] + [write-consistency-level] > [replication-factor]
+* Pre-sort data: `CLUSTERING ORDER BY (number_of_likes ASC);`
 
 ## Problems & Lessons Learned
 
@@ -83,3 +99,7 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 * wahlweise die 25 neusten oder die 25 beliebtesten Posts der verfolgten Accounts (per DB-Abfrage)
 5. Caching der Posts für die Startseite (vgl. 4), erfordert einen sog. Fan-Out in den Cache jedes Followers beim Schreiben eines neuen Posts 
 6. Auflisten der 25 beliebtesten Posts, die ein geg. Wort enthalten (falls möglich auch mit UND-Verknüpfung mehrerer Worte)
+
+## Gitpod Setup
+
+Gitpod starts with executing `make cass` and then opens two browser windows for Cassandra Web and the Frontend Website. Due to developement reasons this is currently disabled and needs to be started manually.

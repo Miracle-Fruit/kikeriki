@@ -9,3 +9,5 @@
 # Ignore all local history of files
 #**/.history
 /cassandra/data
+cassandra/cqlsh/nodetool.history
+cassandra/cqlsh/cqlsh_history
