@@ -3,5 +3,4 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - init: echo "hello"
-
+  - init: echo "PLEASE NOTE Currently you need to manually start using make cass"
