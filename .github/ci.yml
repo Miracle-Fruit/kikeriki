@@ -13,7 +13,7 @@ defaults:
     working-directory: ./cassandra/app
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,7 +26,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         #cache: 'npm'
         #cache-dependency-path: ./cassandra/app/package-lock.json
-    - run: npm install
-    - run: npm ci
-    - run: npm run build --if-present
-#    - run: npm test # currently no tests defined
+    - name: Install dependencies
+      run: npm install
+    - name: Run NPM CI
+      run: npm ci
+    - name: Build app
+      run: npm run build --if-present
+    - name: Test app
+#      run: npm test # currently no tests defined
