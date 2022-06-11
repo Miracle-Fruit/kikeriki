@@ -1,4 +1,4 @@
-#version: "3.9"  # optional since v1.27.0
+# version: "3.9"  # optional since v1.27.0
 
 networks:
   spaceandtime:
@@ -8,7 +8,7 @@ networks:
 
 services:
   cass1:
-    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
+    image: cassandra:4.0.4 # latest lts version as of 31.05.2022
     container_name: cass1
     hostname: cass1
     healthcheck:
@@ -38,15 +38,15 @@ services:
     restart: always
   
   cass2:
-    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
+    image: cassandra:4.0.4 # latest lts version as of 31.05.2022
     container_name: cass2
     hostname: cass2
     healthcheck:
         test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
-        interval: 5s
-        timeout: 5s
+        interval: 10s
+        timeout: 10s
         start_period: 30s
-        retries: 5
+        retries: 10
     networks:
       spaceandtime:
           ipv4_address: 172.20.0.7
@@ -63,15 +63,15 @@ services:
     restart: always
   
   cass3:
-    image: cassandra:4.0.4 #latest lts version as of 31.05.2022
+    image: cassandra:4.0.4 # latest lts version as of 31.05.2022
     container_name: cass3
     hostname: cass3
     healthcheck:
         test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
-        interval: 5s
-        timeout: 5s
+        interval: 10s
+        timeout: 10s
         start_period: 30s
-        retries: 5
+        retries: 10
     networks:
       spaceandtime:
           ipv4_address: 172.20.0.8
@@ -91,12 +91,6 @@ services:
     image: cassandra:4.0.4 # latest lts version as of 31.05.2022
     container_name: cass_startup_client
     hostname: cass_startup_client
-    healthcheck:
-        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
-        interval: 5s
-        timeout: 5s
-        start_period: 30s
-        retries: 5
     networks:
       spaceandtime:
           ipv4_address: 172.20.0.11
@@ -111,10 +105,10 @@ services:
         condition: service_healthy  # service_healthy --> sometimes not working, alternativly restart always policy below
       cass3:
         condition: service_healthy
-    command: cqlsh cass1 -f /tmp/startup/setup/setup_db.cql
+    command: bash -c "cqlsh cass1 -f /tmp/startup/setup/setup_db.cql"
 
   cassweb:
-    image: ruby:2.4.1 #latest stable version as of 31.05.2022
+    image: ruby:2.4.1 # latest stable version as of 31.05.2022
     container_name: cassweb
     hostname: cassweb
     command: bash -c "gem install cassandra-web && cassandra-web --hosts '172.20.0.6, 172.20.0.7, 172.20.0.8' --port '9042' --username 'cassandra' --password 'cassandra'"
@@ -131,11 +125,11 @@ services:
       cass3:
         condition: service_healthy # service_healthy --> sometimes not working, alternativly restart always policy below
       cass_startup_client:
-        condition: service_healthy
+        condition: service_started
     restart: always
 
   node:
-    image: node:18.2.0
+    image: node:18.2.0 # latest stable version as of 31.05.2022
     container_name: node
     hostname: node
     volumes:
@@ -153,6 +147,6 @@ services:
       cass3:
         condition: service_healthy # service_healthy --> sometimes not working, alternativly restart always policy below
       cass_startup_client:
-        condition: service_healthy
+        condition: service_started
     restart: always
-    command: bash -c "cd app && npm start"
+    command: bash -c "cd app && npm install && npm start"
