@@ -8,4 +8,9 @@ body {
   max-width: 1300px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 10px;
+}
+
+.filler {
+  flex: 0.3;
 }

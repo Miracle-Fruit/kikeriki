@@ -7,6 +7,7 @@ function App() {
     <div className="app">
       <Sidebar />
       <Feed />
+      <div className='filler' />
     </div>
   );
 }
