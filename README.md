@@ -2,7 +2,7 @@
 
 # Kikeriki - Social Network with Cassandra and React run in Docker 
 
-![logo](logo.jpg)
+![logo](logo.png)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Miracle-Fruit/distributed-nosqldb)
 
