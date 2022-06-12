@@ -10,7 +10,7 @@ import { Button } from "@mui/material";
 function Sidebar() {
   return (
     <div className="sidebar">
-      <img src="/logo.svg" alt="Bird" class="sidebar__twitterIcon" />
+      <img src="/logo.svg" alt="Bird" className="sidebar__twitterIcon" />
 
       <SidebarOption Icon={HomeIcon} text="Home" active={true} />
       <SidebarOption Icon={SearchIcon} text="Explore" />
