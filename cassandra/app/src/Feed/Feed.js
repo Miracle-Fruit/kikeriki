@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Feed.css";
 import Post from "./Post";
 import FlipMove from "react-flip-move";
 import TweetBox from "./TweetBox";
+import { getTweetByID } from "../Services/CassandraService";
 
 function Feed() {
+  useEffect(() => {
+    getTweetByID('4.27634e+17');
+  }, [])
+
     return (
       <div className="feed">
         <div className="feed__header">
