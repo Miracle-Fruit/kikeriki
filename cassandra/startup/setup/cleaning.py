@@ -24,10 +24,16 @@ df_follower_new['len'] = df_follower_new['follower'].str.len()
 df_user_id = df_follower_new.sort_values(by='len', ascending=False)['user_id'][:100].sample(n=len(authors)).reset_index(drop=True)
 df_follower_new = df_follower_new.drop(columns='len')
 
+# merge the author_names and id into the user table
 authors = pd.DataFrame(authors)
 authors['user_id'] = df_user_id
 data['user_id'] = data.merge(authors, on='author').user_id
 df_follower_new['name'] = df_follower_new.merge(authors,how='left', on='user_id').author
 
+# add tweets id list to the user data
+data_tweets = data.groupby('user_id')['id'].apply(list).reset_index(name='tweet_ids')
+df_follower_new['tweet_ids'] = df_follower_new.merge(data_tweets,how='left', on='user_id').tweet_ids
+
+# save the updated data
 data.to_csv("cassandra/startup/data/tweets.csv",index=False)
 df_follower_new.to_csv("cassandra/startup/data/twitter_combined.txt",index=False)
