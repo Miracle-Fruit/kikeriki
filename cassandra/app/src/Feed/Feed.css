@@ -1,5 +1,6 @@
   .feed {
     border-right: 1px solid var(--twitter-background);
+    border-left: 1px solid var(--twitter-background);
     flex: 0.8;
 
     overflow-y: scroll;
@@ -21,7 +22,7 @@
     top: 0;
     background-color: white;
     z-index: 100;
-    border: 1px solid var(--twitter-background);
+    border-bottom: 2px solid var(--twitter-background);
     padding: 15px 20px;
   }
   

@@ -45,3 +45,7 @@
   .post__avatar {
     padding: 20px;
   }
+
+  .disabled {
+    color: #AAAFB4;
+  }

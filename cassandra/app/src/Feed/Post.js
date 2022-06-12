@@ -30,10 +30,10 @@ const Post = forwardRef(
             </div>
           </div>
           <div className="post__footer">
-            <ChatBubbleOutlineIcon fontSize="small" />
-            <RepeatIcon fontSize="small" />
-            <FavoriteBorderIcon fontSize="small" />
-            <PublishIcon fontSize="small" />
+            <ChatBubbleOutlineIcon fontSize="small" className="disabled" />
+            <RepeatIcon fontSize="small" className="disabled" />
+            <FavoriteBorderIcon fontSize="small" className="disabled" />
+            <PublishIcon fontSize="small" className="disabled" />
           </div>
         </div>
       </div>

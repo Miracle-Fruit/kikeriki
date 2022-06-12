@@ -133,6 +133,43 @@ services:
         condition: service_started
     restart: always
 
+  stargate:
+    image: stargateio/stargate-4_0:v1.0.57
+    depends_on: 
+      cass1:
+        condition: service_healthy # service_healthy --> sometimes not working, alternativly restart always policy below
+      cass2:
+        condition: service_healthy # service_healthy --> sometimes not working, alternativly restart always policy below
+      cass3:
+        condition: service_healthy # service_healthy --> sometimes not working, alternativly restart always policy below
+      cass_startup_client:
+        condition: service_started
+    networks:
+      spaceandtime:
+          ipv4_address: 172.20.0.20
+    ports:
+      # cql
+      - 9045:9042
+      # graphql
+      - 9046:8080
+      # auth
+      - 9047:8081
+      # REST
+      - 9048:8082
+      # health
+      - 9049:8084
+      # grpc
+      - 9050:8090
+    mem_limit: 2G
+    environment:
+      - JAVA_OPTS="-Xmx2G"
+      - CLUSTER_NAME=SolarSystem
+      - CLUSTER_VERSION=4.0
+      - SEED=cass1
+      - RACK_NAME=West
+      - DATACENTER_NAME=Mars
+    restart: always
+
   node:
     image: node:18.2.0 # latest stable version as of 31.05.2022
     container_name: node
