@@ -49,3 +49,12 @@
   .disabled {
     color: #AAAFB4;
   }
+
+  .stats {
+    display: flex;
+  }
+
+  .stats_text {
+    font-size: 15px;
+    margin-left: 5px;
+  }

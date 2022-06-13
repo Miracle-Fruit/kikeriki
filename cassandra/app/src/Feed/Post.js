@@ -8,7 +8,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PublishIcon from "@mui/icons-material/Publish";
 
 const Post = forwardRef(
-  ({ displayName, username, verified, text, image, avatar }, ref) => {
+  ({ displayName, username, verified, text, avatar, likes, retweets }, ref) => {
     return (
       <div className="post" ref={ref}>
         <div className="post__avatar">
@@ -31,8 +31,14 @@ const Post = forwardRef(
           </div>
           <div className="post__footer">
             <ChatBubbleOutlineIcon fontSize="small" className="disabled" />
+            <div className="stats">
             <RepeatIcon fontSize="small" className="disabled" />
+            <div className="stats_text">{retweets}</div>
+            </div>
+            <div className="stats">
             <FavoriteBorderIcon fontSize="small" className="disabled" />
+            <div className="stats_text">{likes}</div>
+            </div>
             <PublishIcon fontSize="small" className="disabled" />
           </div>
         </div>
