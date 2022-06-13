@@ -168,7 +168,7 @@ services:
       - SEED=cass1
       - RACK_NAME=West
       - DATACENTER_NAME=Mars
-      - URL_XY = $API_URL # set gitpod url here somewhere!?
+      - API_URL=$GITPOD_URL # set gitpod url here somewhere!?
     restart: always
 
   node:
