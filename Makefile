@@ -16,5 +16,5 @@ neo4j-com: ## Run Neo4j Community trough Docker Compose
 	docker-compose -f $(DC_NEO4J_COM) up -d
 
 cass: ## Run Cassandra Cluster trough Docker Compose
-	gp url 3000 >> cassandra/var.env
+	gp url 9047 >> cassandra/var.env
 	docker-compose -f $(DC_CASSANDRA) up -d
