@@ -1,14 +1,14 @@
-import React from "react";
+import React, {forwardRef} from "react";
 import "./Profile.css";
 import Post from "../Feed/Post";
 import FlipMove from "react-flip-move";
 
-function Profile() {
-
+const Profile = forwardRef(
+  ({ user }, ref) => {
   return (
     <div className="feed">
       <div className="feed__header">
-        <h2>Profile</h2>
+        <h2>{user.username}</h2>
       </div>
 
       <FlipMove>
@@ -23,6 +23,6 @@ function Profile() {
       </FlipMove>
     </div>
   );
-}
+});
 
 export default Profile;

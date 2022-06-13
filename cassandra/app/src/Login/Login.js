@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import { PropTypes } from "prop-types";
 import "./Login.css";
 
 
-function Login() {
+function Login( {setUser} ) {
+    const [username, setUserName] = useState();
+    const [userid, setUserID] = useState();
+
+    const handleSubmit = () => {
+        setUser({userid: userid, username: username});
+    }
+
     return (
         <>
             <header className="container">
@@ -14,14 +22,14 @@ function Login() {
             <main className="container">
                 <h1>Log in to Kikeriki</h1>
                 <div className="container">
-                    <form className="">
+                    <form onSubmit={handleSubmit}>
                         <div className="inputs">
-                            <label className="username" for="username">Username</label><br />
-                            <input type="text" id="username" />
+                            <label className="username">Username</label><br />
+                            <input type="text" id="username" onChange={e => setUserName(e.target.value)} />
                         </div>
                         <div className="inputs">
-                            <label className="userid" for="userid">UserID</label><br />
-                            <input type="text" id="userid" />
+                            <label className="userid">UserID</label><br />
+                            <input type="text" id="userid" onChange={e => setUserID(e.target.value)} />
                         </div>
                         <br />
                         <button className="button" type="submit">Login</button>
@@ -31,5 +39,9 @@ function Login() {
         </>
     );
 }
+
+Login.propTypes = {
+    setUser: PropTypes.func.isRequired
+};
 
 export default Login;

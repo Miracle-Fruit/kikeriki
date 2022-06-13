@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import "./Feed.css";
 import Post from "./Post";
 import FlipMove from "react-flip-move";
 import TweetBox from "./TweetBox";
 import { restURL, authToken } from "../Services/CassandraService";
 
-function Feed() {
+const Feed = forwardRef(
+  ({ user }, ref) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const getTweetByID = async (tweetID) => {
-      if (authToken == null) {
-        setTimeout(getTweetByID, 1000, tweetID);
-      } else {
-        const response = await fetch(restURL + '/v2/keyspaces/twitter/tweets/' + tweetID, {
-          method: 'GET',
-          credentials: "include",
-          headers: {
-            'X-Cassandra-Token': authToken
-          }
-        });
-        const jsonData = await response.json();
-        setPosts([jsonData]);
-      }
-    };
+    // const getTweetByID = async (tweetID) => {
+    //   if (authToken == null) {
+    //     setTimeout(getTweetByID, 1000, tweetID);
+    //   } else {
+    //     const response = await fetch(restURL + '/v2/keyspaces/twitter/tweets/' + tweetID, {
+    //       method: 'GET',
+    //       credentials: "include",
+    //       headers: {
+    //         'X-Cassandra-Token': authToken
+    //       }
+    //     });
+    //     const jsonData = await response.json();
+    //     setPosts([jsonData]);
+    //   }
+    // };
 
     const getMultipleTweetsByID = async (IDList) => {
       if (authToken == null) {
@@ -72,6 +73,6 @@ function Feed() {
       </FlipMove>
     </div>
   );
-}
+});
 
 export default Feed;
