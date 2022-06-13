@@ -1,10 +1,15 @@
-let authToken = null;
+const authPort = 9047;
+const restPort = 9048;
 
+let authToken = null;
+let gitpodURL = process.env.REACT_APP_GITPOD_URL
+let authURL = gitpodURL.slice(0, 8) + authPort + "-" + gitpodURL.slice(8);
+let restURL = gitpodURL.slice(0, 8) + restPort + "-" + gitpodURL.slice(8);
 
 export async function getAuthToken() {
-    // TODO Send help pls
-    fetch('https://9047-miraclefrui-distributed-jucvhvmw5h6.ws-eu47.gitpod.io/v1/auth', {
+    fetch( authURL + '/v1/auth', {
         method: 'POST',
+        mode: 'cors',
         credentials: "include",
         headers: {
             'Content-Type': 'application/json'
@@ -24,7 +29,7 @@ export async function getTweetByID(tweetID) {
         setTimeout(getTweetByID, 1000, tweetID)
     } else {
         console.log(tweetID)
-        fetch('https://9048-miraclefrui-distributed-jucvhvmw5h6.ws-eu47.gitpod.io/v2/keyspaces/twitter/tweets/' + tweetID, {
+        fetch( restURL + '/v2/keyspaces/twitter/tweets/' + tweetID, {
             method: 'GET',
             credentials: "include",
             headers: {
