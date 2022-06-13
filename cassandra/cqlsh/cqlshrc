@@ -10,3 +10,7 @@ ESCAPE = \
 QUOTE = "
 [copy-from]
 CHUNKSIZE=1
+;; Set to import the UDTs csv datei
+[csv]
+;; The size limit for parsed fields
+field_size_limit = 147483647
