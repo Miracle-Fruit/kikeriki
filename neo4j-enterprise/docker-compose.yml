@@ -25,9 +25,12 @@ services:
       - "7474:7474"
       - "7687:7687"
 
+    # Set up the user
+    user: "${USER_ID}:${GROUP_ID}"
+
     # Uncomment the volumes to be mounted to make them accessible from outside the container.
     volumes:
-      - ./neo4j.conf:/conf/neo4j.conf # This is the main configuration file.
+      - ./conf/neo4j.conf:/conf/neo4j.conf # This is the main configuration file.
       - ./data/core1:/var/lib/neo4j/data
       - ./logs/core1:/var/lib/neo4j/logs
       - ./conf/core1:/var/lib/neo4j/conf
@@ -50,9 +53,6 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
 
-    # Set up the user
-    user: ${USER_ID}:${GROUP_ID}
-
   core2:
     image: ${NEO4J_DOCKER_IMAGE}
     hostname: core2
@@ -63,8 +63,10 @@ services:
     ports:
       - "7475:7474"
       - "7688:7687"
+
+    user: "${USER_ID}:${GROUP_ID}"
     volumes:
-      - ./neo4j.conf:/conf/neo4j.conf
+      - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/core2:/var/lib/neo4j/data
       - ./logs/core2:/var/lib/neo4j/logs
       - ./conf/core2:/var/lib/neo4j/conf
@@ -80,7 +82,6 @@ services:
       - NEO4J_dbms_mode=CORE
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
-    user: ${USER_ID}:${GROUP_ID}
 
   core3:
     image: ${NEO4J_DOCKER_IMAGE}
@@ -92,8 +93,10 @@ services:
     ports:
       - "7476:7474"
       - "7689:7687"
+
+    user: "${USER_ID}:${GROUP_ID}"
     volumes:
-      - ./neo4j.conf:/conf/neo4j.conf
+      - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/core3:/var/lib/neo4j/data
       - ./logs/core3:/var/lib/neo4j/logs
       - ./conf/core3:/var/lib/neo4j/conf
@@ -109,7 +112,6 @@ services:
       - NEO4J_dbms_mode=CORE
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
-    user: ${USER_ID}:${GROUP_ID}
 
   readreplica1:
     image: ${NEO4J_DOCKER_IMAGE}
@@ -121,8 +123,9 @@ services:
     ports:
       - "7477:7474"
       - "7690:7687"
+    user: "${USER_ID}:${GROUP_ID}"
     volumes:
-      - ./neo4j.conf:/conf/neo4j.conf
+      - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/replica1:/var/lib/neo4j/data
       - ./logs/replica1:/var/lib/neo4j/logs
       - ./conf/replica1:/var/lib/neo4j/conf
@@ -138,4 +141,3 @@ services:
       - NEO4J_dbms_mode=READ_REPLICA
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
-    user: ${USER_ID}:${GROUP_ID}

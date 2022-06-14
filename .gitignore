@@ -11,3 +11,12 @@
 /cassandra/data
 cassandra/cqlsh/nodetool.history
 cassandra/cqlsh/cqlsh_history
+
+/neo4j-enterprise/data
+/neo4j-enterprise/import
+/neo4j-enterprise/logs
+/neo4j-enterprise/neo4j.conf
+/neo4j-enterprise/conf/core1
+/neo4j-enterprise/conf/core2
+/neo4j-enterprise/conf/core3
+/neo4j-enterprise/conf/replica1
