@@ -13,7 +13,9 @@ function Sidebar(props) {
 
   return (
     <div className="sidebar">
+      <div>
       <img src="/logo.svg" alt="Bird" className="sidebar__twitterIcon" />
+      </div>
       <div onClick={() => {navigate("/home");}}>
       <SidebarOption Icon={HomeIcon} text="Home" active={location.pathname === "/feed" ? true : false} />
       </div>

@@ -1,18 +1,17 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import './ProfileBox.css'
-import { Avatar } from "@mui/material";
 
-function ProfileBox() {
-
+const ProfileBox = forwardRef(
+    ({ user }, ref) => {
     return (
         <div className="profile">
             <div className="banner">
-                <div className="avatar"><img src="./logo.svg" /></div>
+                <div className="avatar"><img alt="Bird" src="./logo.svg" /></div>
             </div>
 
             <div className="profileData">
-                <h1>Hans</h1>
-                <h2>@Hans63</h2>
+                <h1>{user.username}</h1>
+                <h2>@{user.username}</h2>
 
                 <p>Just a Bird</p>
 
@@ -33,6 +32,6 @@ function ProfileBox() {
             </div>
         </div>
     );
-}
+});
 
 export default ProfileBox;

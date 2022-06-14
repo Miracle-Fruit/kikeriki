@@ -12,13 +12,13 @@ const Profile = forwardRef(
           <h2>{user.username}</h2>
         </div>
 
-        <ProfileBox />
+        <ProfileBox user={user} />
         <FlipMove>
           <Post
             key="null"
             displayName="Hans"
             username="Hans"
-            verified="true"
+            verified={false}
             text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum "
             avatar="/logo.svg"
           />
@@ -26,7 +26,7 @@ const Profile = forwardRef(
             key="null"
             displayName="Hans"
             username="Hans"
-            verified="true"
+            verified={false}
             text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum "
             avatar="/logo.svg"
           />
@@ -34,7 +34,7 @@ const Profile = forwardRef(
             key="null"
             displayName="Hans"
             username="Hans"
-            verified="true"
+            verified={false}
             text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum "
             avatar="/logo.svg"
           />
@@ -42,7 +42,7 @@ const Profile = forwardRef(
             key="null"
             displayName="Hans"
             username="Hans"
-            verified="true"
+            verified={false}
             text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum "
             avatar="/logo.svg"
           />
@@ -50,7 +50,7 @@ const Profile = forwardRef(
             key="null"
             displayName="Hans"
             username="Hans"
-            verified="true"
+            verified={false}
             text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum "
             avatar="/logo.svg"
           />
@@ -58,7 +58,7 @@ const Profile = forwardRef(
             key="null"
             displayName="Hans"
             username="Hans"
-            verified="true"
+            verified={false}
             text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum "
             avatar="/logo.svg"
           />
@@ -66,7 +66,7 @@ const Profile = forwardRef(
             key="null"
             displayName="Hans"
             username="Hans"
-            verified="true"
+            verified={false}
             text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum "
             avatar="/logo.svg"
           />
