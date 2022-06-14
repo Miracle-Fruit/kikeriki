@@ -12,6 +12,8 @@
 cassandra/cqlsh/nodetool.history
 cassandra/cqlsh/cqlsh_history
 
+
+# neo4j
 /neo4j-enterprise/data
 /neo4j-enterprise/import
 /neo4j-enterprise/logs
