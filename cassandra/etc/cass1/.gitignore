@@ -1,0 +1,11 @@
+# ignore everything
+*
+
+# except
+.gitignore
+!cassandra.yaml
+!jvm*
+!logback.xml
+!commitlog_archiving.properties
+!cassandra-rackdc.properties
+!cassandra-env.sh
