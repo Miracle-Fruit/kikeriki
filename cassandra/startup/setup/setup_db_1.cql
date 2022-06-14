@@ -12,6 +12,6 @@ longitude text,
 number_of_likes text, 
 number_of_shares text,
 author_id bigint,
-PRIMARY KEY ((id),author_id,date_time)) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
+PRIMARY KEY ((id,author_id),date_time)) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
 
 COPY twitter.tweets (author,content,country,date_time,id,language,latitude,longitude,number_of_likes,number_of_shares, author_id) FROM '/tmp/startup/data/tweets.csv' WITH DELIMITER=',' AND HEADER=TRUE;
