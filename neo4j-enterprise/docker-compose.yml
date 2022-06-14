@@ -25,8 +25,6 @@ services:
       - "7474:7474"
       - "7687:7687"
 
-    # Set up the user
-    user: "${USER_ID}:${GROUP_ID}"
 
     # Uncomment the volumes to be mounted to make them accessible from outside the container.
     volumes:
@@ -52,6 +50,7 @@ services:
     # This status can be checked using the "docker ps" command.
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+    restart: always
 
   core2:
     image: ${NEO4J_DOCKER_IMAGE}
@@ -64,7 +63,6 @@ services:
       - "7475:7474"
       - "7688:7687"
 
-    user: "${USER_ID}:${GROUP_ID}"
     volumes:
       - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/core2:/var/lib/neo4j/data
@@ -82,6 +80,7 @@ services:
       - NEO4J_dbms_mode=CORE
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+    restart: always
 
   core3:
     image: ${NEO4J_DOCKER_IMAGE}
@@ -94,7 +93,6 @@ services:
       - "7476:7474"
       - "7689:7687"
 
-    user: "${USER_ID}:${GROUP_ID}"
     volumes:
       - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/core3:/var/lib/neo4j/data
@@ -112,6 +110,7 @@ services:
       - NEO4J_dbms_mode=CORE
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+    restart: always
 
   readreplica1:
     image: ${NEO4J_DOCKER_IMAGE}
@@ -123,7 +122,6 @@ services:
     ports:
       - "7477:7474"
       - "7690:7687"
-    user: "${USER_ID}:${GROUP_ID}"
     volumes:
       - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/replica1:/var/lib/neo4j/data
@@ -141,3 +139,4 @@ services:
       - NEO4J_dbms_mode=READ_REPLICA
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+    restart: always
