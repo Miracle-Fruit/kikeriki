@@ -7,6 +7,7 @@ GID:=$(shell id -g)
 
 neo4j-ent: ## Run Neo4j Enterprise Edition with Cluster trough Docker Compose
 	cd ./neo4j-enterprise/ && ./createFolders.sh
+	chmod 640 ./neo4j-enterprise/conf/neo4j.conf
 	export USER_ID=$(UID) && \
 	export GROUP_ID=$(GID) && \
 	export NEO4J_DOCKER_IMAGE=neo4j:4.4-enterprise && \
@@ -14,7 +15,7 @@ neo4j-ent: ## Run Neo4j Enterprise Edition with Cluster trough Docker Compose
 	export EXTENDED_CONF=yes && \
 	export NEO4J_ACCEPT_LICENSE_AGREEMENT=no && \
 	export NEO4J_AUTH=none && \
-	docker-compose -f $(DC_NEO4J_ENT) up -d
+	docker-compose -f $(DC_NEO4J_ENT) up
 
 neo4j-com: ## Run Neo4j Community trough Docker Compose
 	docker-compose -f $(DC_NEO4J_COM) up -d
