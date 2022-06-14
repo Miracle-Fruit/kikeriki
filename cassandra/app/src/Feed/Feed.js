@@ -67,7 +67,7 @@ const Feed = forwardRef(
             text={post.content}
             likes={post.number_of_likes}
             retweets={post.number_of_shares}
-            avatar="/logo.svg"
+            avatar={"https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg"}
           />
         ))}
       </FlipMove>

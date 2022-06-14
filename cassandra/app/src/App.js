@@ -5,14 +5,18 @@ import Login from './Login/Login';
 import './App.css';
 import { useEffect, useState } from 'react';
 import { getAuthToken } from './Services/CassandraService';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 function App() {
   const [user, setUser] = useState({userID: "", username: ""});
 
+  const logout = () => {
+    setUser({userID: "", username: ""});
+  }
 
   useEffect(() => {
-    //setUser({userID: "123456789", username: "Hans63"})
+    // Uncomment to skip login
+    setUser({userID: "123456789", username: "Hans63"})
     getAuthToken();
   }, [])
   
@@ -22,15 +26,15 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar />
       <BrowserRouter>
+      <Sidebar logout={logout} />
         <Routes>
-          <Route path="/" element={<Feed user={user}/>} />
-          {console.log(user)}
+          <Route path="*" element={user.userID !== "" && <Navigate replace to="/feed" />}></Route>
+          <Route path="/feed" element={<Feed user={user}/>} />
           <Route path="/profile" element={<Profile user={user} />} />
         </Routes>
-      </BrowserRouter>  
       <div className='filler' />
+      </BrowserRouter>  
     </div>
   );
 }

@@ -1,0 +1,99 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.profile::-webkit-scrollbar {
+    display: none;
+}
+
+.banner {
+    flex-shrink: 0;
+    width: 100%;
+    height: min(33vw, 199px);
+    background: url("https://images.unsplash.com/photo-1588597989061-b60ad0eefdbf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+}
+
+.avatar {
+    width: max(45px, min(135px, 22vw));
+    height: max(45px, min(135px, 22vw));
+    border: 3px solid black;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    bottom: max(-60px, -10vw);
+    left: 15px;
+}
+
+.avatar > img {
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+.profileData {
+    padding: min(calc(10vw + 7px), 67px) 16px 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.profileData > h1 {
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.profileData > h2 {
+    font-weight: normal;
+    font-size: 15px;
+    color: var(--gray);
+}
+
+.profileData > p {
+    font-size: 15px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.follow {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.follow  > span {
+    font-size: 15px;
+    margin-right: 10px;
+    color: var(--gray);
+}
+
+.follow  > span > strong {
+    color: black;
+}
+
+
+
+.tabs {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+    outline: 0;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid var(--twitter-background);
+}
+
+.tabs > .active {
+    color: black;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--twitter-color);
+}
+
+.tabs > .disabled {
+    color: #AAAFB4;
+}
