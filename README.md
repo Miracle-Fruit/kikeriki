@@ -82,6 +82,7 @@ Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid lite
 * cassandra-web requires older ruby version >3 seems to cause problems
 * cassandra configuration yaml file and volume mapping
 * Execution of startup script to run cql commands is not working: `Connection error: ('Unable to connect to any servers', {'172.20.0.6:9042': ConnectionRefusedError(111, "Tried connecting to [('172.20.0.6', 9042)]. Last error: Connection refused")})`
+* cqlsh> CREATE MATERIALIZED VIEW twitter.user_14237490 AS select * from twitter.user where user_id=14237490 PRIMARY KEY (user_id); Warnings : Materialized views are experimental and are not recommended for production use.
 
 ## Social Media Queries
 
