@@ -25,7 +25,7 @@ df_follower = df_follower.drop(columns='len')
 authors = pd.DataFrame(authors)
 authors['user_id'] = df_user_id
 data['user_id'] = data.merge(authors, on='author').user_id
-df_follower['name'] = df_follower.merge(authors,how='left', on='user_id').author
+df_follower['name'] = df_follower.merge(authors,how='left', on='user_id')['author'].values
 
 # add tweets id list to the user data
 # data_tweets = data.groupby('user_id')['id'].apply(list).reset_index(name='tweet_ids')
