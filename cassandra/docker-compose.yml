@@ -110,7 +110,7 @@ services:
         condition: service_healthy  # service_healthy --> sometimes not working, alternativly restart always policy below
       cass3:
         condition: service_healthy
-    command: bash -c "cqlsh cass1 -f /tmp/startup/setup/setup_db_1.cql && cqlsh cass1 -f /tmp/startup/setup/setup_db_2.cql"
+    command: bash -c "cqlsh cass1 -f tmp/startup/setup/setup_UDTS.cql"
 
   cassweb:
     image: ruby:2.4.1 # latest stable version as of 31.05.2022
