@@ -1,9 +1,12 @@
 DC_NEO4J_ENT := neo4j-enterprise/docker-compose.yml
 DC_NEO4J_COM := neo4j-community/docker-compose.yml
 DC_CASSANDRA := cassandra/docker-compose.yml
+DC_SCYLLA := scylla/docker-compose.yml
 
 UID:=$(shell id -u)
 GID:=$(shell id -g)
+
+.PHONY: scylla
 
 neo4j-ent: ## Run Neo4j Enterprise Edition with Cluster trough Docker Compose
 	cd ./neo4j-enterprise/ && ./createFolders.sh
@@ -15,7 +18,7 @@ neo4j-ent: ## Run Neo4j Enterprise Edition with Cluster trough Docker Compose
 	export EXTENDED_CONF=yes && \
 	export NEO4J_ACCEPT_LICENSE_AGREEMENT=no && \
 	export NEO4J_AUTH=none && \
-	docker-compose -f $(DC_NEO4J_ENT) up
+	docker-compose -f $(DC_NEO4J_ENT) up -d
 
 neo4j-com: ## Run Neo4j Community trough Docker Compose
 	docker-compose -f $(DC_NEO4J_COM) up -d
@@ -23,3 +26,6 @@ neo4j-com: ## Run Neo4j Community trough Docker Compose
 cass: ## Run Cassandra Cluster trough Docker Compose
 	{ echo -n "REACT_APP_GITPOD_URL=" ; gp url ; }  > cassandra/app/.env
 	docker-compose -f $(DC_CASSANDRA) up -d
+
+scylla: ## Run ScyllaDB Cluster trough Docker Compose
+	docker-compose -f $(DC_SCYLLA) up 
