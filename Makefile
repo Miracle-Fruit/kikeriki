@@ -2,11 +2,13 @@ DC_NEO4J_ENT := neo4j-enterprise/docker-compose.yml
 DC_NEO4J_COM := neo4j-community/docker-compose.yml
 DC_CASSANDRA := cassandra/docker-compose.yml
 DC_SCYLLA := scylla/docker-compose.yml
+DC_REDIS := redis/docker-compose.yml
+DC_RAVEN := ravenDB/docker-compose.yml
 
 UID:=$(shell id -u)
 GID:=$(shell id -g)
 
-.PHONY: scylla
+.PHONY: scylla redis
 
 neo4j-ent: ## Run Neo4j Enterprise Edition with Cluster trough Docker Compose
 	cd ./neo4j-enterprise/ && ./createFolders.sh
@@ -39,3 +41,9 @@ cass: ## Run Cassandra Cluster trough Docker Compose
 
 scylla: ## Run ScyllaDB Cluster trough Docker Compose
 	docker-compose -f $(DC_SCYLLA) up 
+
+redis: 
+	docker-compose -f $(DC_REDIS) up 
+
+ravendb:
+	docker-compose -f $(DC_RAVEN) up 
