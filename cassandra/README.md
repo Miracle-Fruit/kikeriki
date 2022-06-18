@@ -2,11 +2,13 @@
 
 Command can be run on the Cassandra Web at `localhost:3000` or in the docker container with:
 
-            sudo docker exec -it cass1 cqlsh
+    sudo docker exec -it cass1 cqlsh
             
 Note the `MATERIALZIED VIEWS` and `CUSTOM INDEX` are already created in the [startup script](https://github.com/Miracle-Fruit/kikeriki/blob/main/cassandra/startup/setup/setup_db.sh) and don't needed to be run again.
 
 ## Queries
+
+All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/tree/main/cassandra/startup/queries).
 
 1. Auflisten der Posts, die von einem Account gemacht wurden, bzw. ihm zugeordnet wurden
 
