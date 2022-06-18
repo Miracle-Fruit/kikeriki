@@ -1,5 +1,7 @@
 # Lessons Learned
 
+## Cassandra
+
 Lessons learned from installing Cassandra DB with Docker Compose to run a social network which loads data from Twitter.
 
 ## Infrastructure
@@ -38,16 +40,30 @@ healthcheck:
     * jvm11-clients.options
     * jvm11-server.options
     * logback.xml
-  * The only parameter that we needed to set additionally in those files was `enable_materialized_views: true` to be able to create materialized views.
+  * Parameter that we needed to set additionally in those files were:
+        * `enable_materialized_views: true` to be able to create materialized views.
+        * `enable_sasi_indexes: true` to be able to create index on twitter.tweets content.
+        * `*_timeout: >default` to be able to read large csv-files into the cluster.
   * The Docker volume mapped to the Cassandra Container at `etc/cassandra` needs to have all the above files in order for cassandra to work, the values specified in the above environment variables will override the default values in the actual configuration files.
+* For set the setting for cqlsh (a python script-shell to run cql-queries on the database) we add a csqhrc-file in `/.cassandra`, which allowed only one file in the directory with the setting for cql. There we change following settings:
+
+                [ui]
+                timezone = Etc/UTC` : Set the current timezone
+                time_format = %d/%m/%Y %H:%M`: Change the date pattern to import time_stamps
+                [copy] 
+                ESCAPE = \: set the escape character
+                QUOTE = ": set the quote character
+                
 * At the first try we experienced problems executing our startup script to run CQL commands: `Connection error: ('Unable to connect to any servers', {'172.20.0.6:9042': ConnectionRefusedError(111, "Tried connecting to [('172.20.0.6', 9042)]. Last error: Connection refused")})`. This was due to enabled authentication which we then ended using for the connection. The default user and password is *cassandra*.
 * When creating materialized views we received the following message `Warnings : Materialized views are experimental and are not recommended for production use.` Apparently materialized views are experimental and this is also why we had to explicitly enable them in the configuration. It is recommended to rather use duplicate tables as suggested in this [stackoverflow thread](https://stackoverflow.com/questions/48974287/cassandra-materialized-views-impact).
-* ..
+* Views are also experimental and have to enabled in the cassandra.yml-file. However they are only usefull to rearange the order of the keys-column or to add one new "no key"-column as a new key value. Additionaly is not possible to add new fields like count(col_name) to a view. To archive this it is recommended to use a new data schema and load data with the [cassandra-spark-connector](https://github.com/datastax/spark-cassandra-connector) as a new table.
+* To import large CSV-files is recommended to use the sstableloader or a spark cluster. Because of the time restriction we only tried out to use ready to use [cvs_to_sstable_convert](https://github.com/SPBTV/csv-to-sstable) and don't try do convert them manuly. But the data can not bet imported to the database and we getting correct fileupload with 0-files upload message.
+
 
 ## Data Model
 
 * When first importing the data into Cassandra we ran into the follwing problem: `Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid literal for int() with base 10: '5.34896E+17',  given up without retries 'builtin_function_or_method' object has no attribute 'error'`. In order to fix this we had to manipulate the data before the import manually.
-* ..
+* We had to change the data schema a lot of times and try out driffent combination to make the querries work. We end up to use the realation table with the realationship between user_id,follower_id and tweet_id which build the primary key. So the data will be saved multiple times for eacht id and get around 45 times larger thand the orginal data. Addtionly we also use a stats table with counter to get a faster querry for the length of follower or follows. Because of the "world-search"-querry (task 6) we also add the tweets in a separate table to be able to run a index on the content col and filter with the LIKE-keyword.
 
 
 ## Other
