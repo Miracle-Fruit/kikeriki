@@ -1,5 +1,8 @@
-# setup keyspace and table
-cqlsh -f /tmp/startup/setup/setup_db.cql 172.20.0.6 9042 -u cassandra -p cassandra
 
-# execute some queries
-cqlsh -f /tmp/startup/queries/twitter_queries.cql 172.20.0.6 9042 -u cassandra -p cassandra
+#!/bin/bash
+# NOTE : Quote it else use array to avoid problems #
+# <stdin>:1:Failed to import 20 rows: WriteTimeout - Error from server: code=1100 [Coordinator node timed out waiting for replica nodes' responses] message="Operation timed out - received only 0 responses." info={'consistency': 'ONE', 'required_responses': 1, 'received_responses': 0, 'write_type': 'UNLOGGED_BATCH'},  will retry later, attempt 1 of 5
+FILES="/tmp/startup/data/relations/*"
+for f in $FILES; do
+    cqlsh cass1 -e "COPY twitter.user (user_id_x,follower_id,name,author,content,country,date_time,id,language,latitude,longitude,number_of_likes,number_of_shares,user_id_y) FROM '$f' WITH DELIMITER=',' AND  HEADER=TRUE;"
+done
