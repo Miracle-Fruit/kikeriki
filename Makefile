@@ -37,7 +37,12 @@ neo4j-com: ## Run Neo4j Community trough Docker Compose
 
 cass: ## Run Cassandra Cluster trough Docker Compose
 	{ echo -n "REACT_APP_GITPOD_URL=" ; gp url ; }  > cassandra/app/.env
-	docker-compose -f $(DC_CASSANDRA) up -d
+	docker-compose -f $(DC_CASSANDRA) up
+
+cass-ex3:
+	cd ./cassandra/startup/queries && \
+	docker build -t ex3 . && \
+	docker run --rm --network cassandra_spaceandtime ex3
 
 scylla: ## Run ScyllaDB Cluster trough Docker Compose
 	docker-compose -f $(DC_SCYLLA) up 
