@@ -919,7 +919,7 @@ read_request_timeout_in_ms: 5000
 range_request_timeout_in_ms: 10000
 # How long the coordinator should wait for writes to complete.
 # Lowest acceptable value is 10 ms.
-write_request_timeout_in_ms: 2000
+write_request_timeout_in_ms: 20000
 # How long the coordinator should wait for counter writes to complete.
 # Lowest acceptable value is 10 ms.
 counter_write_request_timeout_in_ms: 5000
@@ -1408,7 +1408,7 @@ enable_materialized_views: true
 
 # Enables SASI index creation on this node.
 # SASI indexes are considered experimental and are not recommended for production use.
-enable_sasi_indexes: false
+enable_sasi_indexes: true
 
 # Enables creation of transiently replicated keyspaces on this node.
 # Transient replication is experimental and is not recommended for production use.
