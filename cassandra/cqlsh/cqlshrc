@@ -8,5 +8,3 @@ time_format = %d/%m/%Y %H:%M
 [copy]
 ESCAPE = \
 QUOTE = "
-[copy-from]
-CHUNKSIZE=1
