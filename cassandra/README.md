@@ -2,7 +2,7 @@
 
 Command can be run on the Cassandra Web at `localhost:3000` or in the docker container with:
 
-            sudo docker exec -it cass1 cqlsh
+    sudo docker exec -it cass1 cqlsh
             
 Note the `MATERIALZIED VIEWS` and `CUSTOM INDEX` are already created in the [startup script](https://github.com/Miracle-Fruit/kikeriki/blob/main/cassandra/startup/setup/setup_db.sh) and don't needed to be run again.
 
