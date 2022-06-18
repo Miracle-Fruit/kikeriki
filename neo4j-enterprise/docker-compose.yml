@@ -25,7 +25,7 @@ services:
       - "7474:7474"
       - "7687:7687"
 
-
+    user: "${UID}:${GID}"
     # Uncomment the volumes to be mounted to make them accessible from outside the container.
     volumes:
       - ./conf/neo4j.conf:/conf/neo4j.conf # This is the main configuration file.
@@ -63,6 +63,7 @@ services:
       - "7475:7474"
       - "7688:7687"
 
+    user: "${UID}:${GID}"
     volumes:
       - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/core2:/var/lib/neo4j/data
@@ -93,6 +94,7 @@ services:
       - "7476:7474"
       - "7689:7687"
 
+    user: "${UID}:${GID}"
     volumes:
       - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/core3:/var/lib/neo4j/data
@@ -122,6 +124,8 @@ services:
     ports:
       - "7477:7474"
       - "7690:7687"
+
+    user: "${UID}:${GID}"
     volumes:
       - ./conf/neo4j.conf:/conf/neo4j.conf
       - ./data/replica1:/var/lib/neo4j/data
