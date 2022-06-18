@@ -8,6 +8,8 @@ Note the `MATERIALZIED VIEWS` and `CUSTOM INDEX` are already created in the [sta
 
 ## Queries
 
+All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/tree/main/cassandra/startup/queries).
+
 1. Auflisten der Posts, die von einem Account gemacht wurden, bzw. ihm zugeordnet wurden
 
         SELECT content FROM twitter.tweets where author_id = X;
