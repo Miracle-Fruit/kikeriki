@@ -16,8 +16,6 @@ user_id_y int,
 PRIMARY KEY((user_id_x,follower_id,id))
 ) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
 
-// COPY twitter.user (user_id,follower_id,name) FROM '/tmp/startup/data/user_relation.txt' WITH DELIMITER=',' AND HEADER=TRUE;
-
 
 CREATE TABLE twitter.user_stats(
 user_id bigint,
@@ -28,14 +26,3 @@ PRIMARY KEY(user_id)
 ) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
 
 COPY twitter.user_stats (user_id,follower_len,follows_len,tweet_len) FROM '/tmp/startup/data/user_stats.txt' WITH DELIMITER=',' AND HEADER=TRUE;
-
-
-CREATE TABLE twitter.user_follow(
-user_id bigint,
-follower set<int>,
-follows set<int>,
-PRIMARY KEY(user_id)
-) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
-
-// Error from server: code=2200 [Invalid query] message="Batch too large",  given up after 5 attempts
-// COPY twitter.user_follow (user_id,follower,follows) FROM '/tmp/startup/data/user_follows.txt' WITH DELIMITER=',' AND HEADER=TRUE;

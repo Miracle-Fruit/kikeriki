@@ -7,12 +7,12 @@ SELECT * FROM twitter.tweets WHERE author='katyperry' ALLOW FILTERING;
 
 // VIEW not possible -> no group by allowed AND YOU CANT SORT DATA https://stackoverflow.com/a/14463098
 // CREATE MATERIALIZED VIEW twitter.most_follows AS SELECT user_id, count(user_id) as len from twitter.user  group by user_id PRIMARY KEY (user_id,len);
-// Use of spark cluster or trigger to update tables to add the lenght of follower ids. -> New Data Schema
-// not supported on counter table -> CREATE MATERIALIZED VIEW twitter.most_follows AS SELECT user_id, follower_len from twitter.user_stats PRIMARY KEY ((follower_len,user_id));
+// # Use of spark cluster or trigger to update tables to add the lenght of follower ids. -> New Data Schema
+// # not supported on counter table -> CREATE MATERIALIZED VIEW twitter.most_follows AS SELECT user_id, follower_len from twitter.user_stats PRIMARY KEY ((follower_len,user_id));
 // change to int 
 CREATE MATERIALIZED VIEW twitter.most_follows AS SELECT user_id, follower_len from twitter.user_stats WHERE user_id is not null and follower_len is not null PRIMARY KEY (follower_len,user_id);
 
-// 3. NO IDEA
+// 3. Finden der 100 Accounts, die den meisten der Accounts folgen, die in 2) gefunden wurden
 
 // 4. 
 // die Anzahl der Follower & die Anzahl der verfolgten Accounts
@@ -25,9 +25,9 @@ CREATE MATERIALIZED VIEW twitter.start_view_like AS SELECT user_id_x,follower_id
 SELECT * FROM twitter.start_view_like WHERE user_id_x = 172883064 ORDER BY number_of_likes DESC LIMIT 25; 
 
 // 5. Fan-Out as VIEW ?
-// InvalidRequest: Error from server: code=2200 [Invalid query] message="Unknown column 'user_id_x' referenced in PRIMARY KEY for materialized view 'start_view_biber'"
+// # InvalidRequest: Error from server: code=2200 [Invalid query] message="Unknown column 'user_id_x' referenced in PRIMARY KEY for materialized view 'start_view_biber'"
 CREATE MATERIALIZED VIEW twitter.start_view_biber AS SELECT follower_id,number_of_likes,date_time,author,name,content,id FROM twitter.user WHERE user_id_x IS NOT NULL AND user_id_x=172883064 AND follower_id IS NOT NULL AND number_of_likes IS NOT NULL AND id IS NOT NULL PRIMARY KEY ((user_id_x),number_of_likes,follower_id,id);
-// ??? order by need partion key in WHERE
+// # order by need partion key in WHERE
 SELECT * from twitter.start_view_biber WHERE user_id_x=172883064 ORDER BY number_of_likes DESC LIMIT 25;
 // INSERT new tweet
 INSERT INTO twitter.user(user_id_x,follower_id,name,author ,content ,country ,date_time ,id ,language ,latitude ,longitude ,number_of_likes ,number_of_shares ,user_id_y )
@@ -35,11 +35,10 @@ VALUES(172883064, 261047860, 'Justin','Twitter', 'Hallo there BDEA','DE', dateof
 
 // 6. Auflisten Post die ein geg. Wort enthalten (falls möglich auch mit UND-Verknüpfung mehrerer Worte)
 // # Enables SASI index creation on this node && SASI indexes are considered experimental and are not recommended for production use.
-// InvalidRequest: Error from server: code=2200 [Invalid query] message="Secondary indexes on materialized views aren't supported"
-// SyntaxException: line 1:7 no viable alternative at input 'SEARCH' ([CREATE] SEARCH...)
-CREATE MATERIALIZED VIEW twitter.search_view AS SELECT number_of_likes,content,author,id,user_id_x,follower_id FROM twitter.user WHERE user_id_x IS NOT NULL AND follower_id IS NOT NULL AND number_of_likes IS NOT NULL AND id IS NOT NULL AND number_of_likes IS NOT NULL PRIMARY KEY ((number_of_likes),follower_id,id,user_id_x);
-CREATE CUSTOM INDEX search_in ON twitter.user (content) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = {
-'mode': 'CONTAINS'};
-SELECT content FROM twitter.user WHERE content LIKE 'This%' limit 10;
+// # InvalidRequest: Error from server: code=2200 [Invalid query] message="Secondary indexes on materialized views aren't supported"
+// # SyntaxException: line 1:7 no viable alternative at input 'SEARCH' ([CREATE] SEARCH...)
+CREATE CUSTOM INDEX search_in ON twitter.tweets (content) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = {  'mode': 'CONTAINS', 'analyzer_class': 'org.apache.cassandra.index.sasi.analyzer.NonTokenizingAnalyzer', 'case_sensitive': 'false' };
+SELECT * from twitter.tweets WHERE content LIKE '%This%' limit 25;
+
 
 
