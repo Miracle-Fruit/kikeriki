@@ -2,7 +2,7 @@
 tasks:
   - init: echo "PLEASE NOTE Currently you need to manually start using make cass"
   - init: echo "STARTUP CASSANDRA CLUSTER"
-- command: make cass
+  - command: make cass
 
 # Ports to expose on workspace startup
 ports:
