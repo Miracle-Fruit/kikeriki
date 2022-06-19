@@ -36,9 +36,28 @@ df_follower['name'] = df_follower.merge(authors,how='left', on='user_id')['autho
 tweets_len = df_tweet.groupby('user_id')['id'].size().reset_index(name='tweets_len').astype(int)
 df_user_stats['tweets_len'] = df_user_stats.merge(tweets_len,how='left', on='user_id')['tweets_len'].values
 
-# add tweets id list to the user data
-# data_tweets = data.groupby('user_id')['id'].apply(list).reset_index(name='tweet_ids')
-# df_follower_new['tweet_ids'] = df_follower_new.merge(data_tweets,how='left', on='user_id').tweet_ids
+# add liked from user to each tweet
+user_ids = pd.DataFrame(df_follower['user_id'].drop_duplicates())
+num_of_ids_missing = int(df_tweet['number_of_likes'].max()/10) - user_ids.values.size
+# generate new user if most liked tweet are more than the user number
+if num_of_ids_missing > 0: 
+    a = np.empty((num_of_ids_missing,2,))
+    a[:] = np.nan
+    new_user_ids = np.arange(user_ids.max()+1,user_ids.max()+1+num_of_ids_missing)
+    a[:,0] = new_user_ids
+    user_ids = pd.concat([pd.DataFrame(a, columns=user_ids.columns), user_ids], ignore_index=True)
+    user_ids['user_id'] = user_ids['user_id'].astype(np.uint32)
+
+# sort random user_id to all tweets
+tweet_ids = pd.DataFrame(df_tweet['id'].drop_duplicates())
+tweet_ids['liked_from'] = df_tweet.apply(lambda row: list(np.random.choice(user_ids['user_id'],size = int(row['number_of_likes']/10))),axis=1)
+
+# split into separte files
+partitions = 6
+dfs = np.array_split(tweet_ids, partitions)
+for i,df in enumerate(dfs):
+   df.to_csv("cassandra/startup/data/tweet_liked/tweet"+str(i)+".txt",index=False)
+
 
 # save the updated data
 df_tweet.to_csv("cassandra/startup/data/tweets.csv",index=False)
