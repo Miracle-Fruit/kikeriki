@@ -12,9 +12,7 @@ All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/t
 
 1. Listing  all the posts made by an account.
 
-        SELECT content FROM twitter.tweets where author_id = X;
-
-        SELECT * FROM twitter.tweets WHERE author='katyperry' ALLOW FILTERING;
+        SELECT content FROM twitter.tweets where author_id = 233248636;
 
 2. Find the 100 accounts with the most followers
 
