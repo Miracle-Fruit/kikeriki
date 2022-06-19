@@ -12,6 +12,7 @@ df_user_follow_list = df_follower.groupby('user_id')['follower_id'].apply(list).
 df_user_follow_list['follower'] = df_follower.groupby('follower_id')['user_id'].apply(list).reset_index(name='follower')['follower'] # group follows to user_id -> user are followed by
 df_user_stats['follows_len'] = df_follower.groupby('follower_id')['user_id'].size().reset_index(name='follows_len')['follows_len'] # group follows to user_id -> user are followed by
 
+df_follower.to_csv("cassandra/startup/data/user_follower_relation.csv",index=False)
 
 # change comment section in twitter.csv because \n and \r are not functionally quoteted
 df_tweet = pd.read_csv("cassandra/startup/data/tweets_orginal.csv")
@@ -51,9 +52,10 @@ if num_of_ids_missing > 0:
 # sort random user_id to all tweets
 tweet_ids = pd.DataFrame(df_tweet['id'].drop_duplicates())
 tweet_ids['liked_from'] = df_tweet.apply(lambda row: list(np.random.choice(user_ids['user_id'],size = int(row['number_of_likes']/10))),axis=1)
+tweet_ids['date_time'] = df_tweet['date_time']
 
 # split into separte files
-partitions = 6
+partitions = 7
 dfs = np.array_split(tweet_ids, partitions)
 for i,df in enumerate(dfs):
    df.to_csv("cassandra/startup/data/tweet_liked/tweet"+str(i)+".txt",index=False)
