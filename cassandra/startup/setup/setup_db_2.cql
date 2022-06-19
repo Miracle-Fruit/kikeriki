@@ -21,7 +21,7 @@ CREATE TABLE twitter.tweet_liked_from(
 tweet_id text,
 date_time timestamp,
 liked_from set<int>,
-PRIMARY KEY(tweet_id,timestamp)
+PRIMARY KEY(tweet_id,date_time)
 ) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
 
 
