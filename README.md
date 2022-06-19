@@ -43,6 +43,8 @@ Gitpod starts with executing `make cass` and then opens two browser windows for 
 The react and cassandra frontend should open automaticly, if not the react frontend runs on Port 3001 and the cassandra frontend on Port 3000. 
 
 ### React Frontend
+**Imporant**
+Disable the CORS policy in your Browser, otherwise the frontend cant send API requests to the backend resulting in an not working frontend.
 
 The frontend is build with [Create React App](https://github.com/facebook/create-react-app).
 ![Frontend1](./frontend1.png)
@@ -54,6 +56,21 @@ It supports the following features:
 * View your feed sorted by likes or date (see kikerikis of people you follow)
 * View your profile to see your kikerikis sorted by date and to see your follower and follows count
 * Send new kikerikis
+
+### Example Users for Frontend Login:
+Here are two example users you can use for the login. 
+Tylor Swift doesnt follow anyone who has posts so the feed will be empty but your profile should look full.
+The other User follows Taylor but doesnt have any Posts so your Feed should look full and your profile empty but your can kikeriki yourself to see thoose kikerikis in your profile.
+
+
+* Taylor Swift
+*   Username: taylorswift13
+*   UserID: 233248636
+
+* Other User:
+*   Username: NoName
+*   UserID: 172883064 
+
 
 ### Sources we used for the frontend design:
 * https://github.com/danielbarrosdeoliveira/twitter-login-clone-html-css
