@@ -39,8 +39,46 @@ const TweetBox = forwardRef(
             }
         };
 
+
+        const sendTweetUsers = async () => {
+            if (authToken == null) {
+                setTimeout(sendTweetTweets, 1000);
+            } else {
+                var today = new Date();
+                const dateTime = today.toISOString()
+                await fetch(restURL +
+                    `/v2/keyspaces/twitter/user`, {
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'X-Cassandra-Token': authToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id_x: 172883064,
+                        user_id_y: 172883064,
+                        follower_id: user.userID,
+                        name: null,
+                        id: (Math.random() + 1).toString(36).substring(2),
+                        number_of_likes: 0,
+                        author: user.username,
+                        content: tweetMessage,
+                        country: null,
+                        date_time: dateTime,
+                        language: "en",
+                        latitude: null,
+                        longitude: null,
+                        number_of_shares: 0
+
+
+                    })
+                });
+            }
+        };
+
         function handleTweet() {
             sendTweetTweets();
+            sendTweetUsers();
             setTweetMessage("");
         }
 

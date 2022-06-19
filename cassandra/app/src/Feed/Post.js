@@ -23,7 +23,7 @@ const Post = forwardRef(
                   {verified && <VerifiedUserIcon className="post__badge" />} @
                   {username}
                   <br></br>
-                  {date}
+                  {new Date(date).toLocaleString()}
                 </span>
               </h3>
             </div>

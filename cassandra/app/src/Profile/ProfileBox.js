@@ -14,7 +14,7 @@ const ProfileBox = forwardRef(
         }, [])
 
         const getProfileData = async () => {
-            if (authToken == null) {
+            if (authToken === null) {
                 setTimeout(getProfileData, 1000);
             } else {
                 const response = await fetch(restURL +
@@ -26,7 +26,11 @@ const ProfileBox = forwardRef(
                     }
                 });
                 const jsonData = await response.json();
+                if (jsonData.data.length===0) {
+                    setProfileData([{follower_len: 0, follows_len: 0}]);
+                } else {
                 setProfileData(jsonData.data);
+            }
                 setLoading(false);
             }
         };

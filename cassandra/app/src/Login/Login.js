@@ -8,7 +8,7 @@ function Login( {setUser} ) {
     const [userid, setUserID] = useState();
 
     const handleSubmit = () => {
-        setUser({userid: userid, username: username});
+        setUser({userID: userid, username: username});
     }
 
     return (
