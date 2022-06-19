@@ -40,13 +40,12 @@ df_user_stats['tweets_len'] = df_user_stats.merge(tweets_len,how='left', on='use
 # data_tweets = data.groupby('user_id')['id'].apply(list).reset_index(name='tweet_ids')
 # df_follower_new['tweet_ids'] = df_follower_new.merge(data_tweets,how='left', on='user_id').tweet_ids
 
-## add tweet ids
-# relation = df_follower.merge(df_tweet.iloc[:1],left_on='follower_id',right_on='user_id')
 # save the updated data
 df_tweet.to_csv("cassandra/startup/data/tweets.csv",index=False)
 df_user_stats.to_csv("cassandra/startup/data/user_stats.txt",index=False)
 df_user_follow_list.to_csv("cassandra/startup/data/user_follows.txt",index=False)
 
+# save realtionship betweet user_ID, follower_ID and tweet_ID
 relation_list = list()
 for i,row in df_tweet.iterrows():
     df = df_tweet.iloc[[i]]
