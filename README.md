@@ -55,6 +55,11 @@ It supports the following features:
 * View your profile to see your kikerikis sorted by date and to see your follower and follows count
 * Send new kikerikis
 
+### Sources we used for the frontend design:
+* https://github.com/danielbarrosdeoliveira/twitter-login-clone-html-css
+* https://github.com/RisingGeek/twitter-clone
+* https://github.com/CleverProgrammers/twitter-clone
+
 
 
 ### Cassandra Cluster Details
