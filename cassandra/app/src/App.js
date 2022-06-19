@@ -6,6 +6,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { getAuthToken } from './Services/CassandraService';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 function App() {
   const [user, setUser] = useState({userID: "", username: ""});
@@ -16,7 +17,7 @@ function App() {
 
   useEffect(() => {
     // Uncomment to skip login
-   // setUser({userID: "123456789", username: "Hans63"})
+    setUser({userID: "172883064", username: null})
     getAuthToken();
   }, [])
   

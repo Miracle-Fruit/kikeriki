@@ -15,7 +15,7 @@ function Login( {setUser} ) {
         <>
             <header className="container">
                 <div className="logo">
-                    <img src="./logo.svg" alt="Logo do Twitter" />
+                    <img src="/logo.svg" alt="Kikeriki Logo" />
                 </div>
             </header>
 
