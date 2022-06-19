@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     // Uncomment to skip login
-    setUser({userID: "172883064", username: null})
+    setUser({userID: "172883064", username: "172883064"})
     getAuthToken();
   }, [])
   
