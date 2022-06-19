@@ -15,7 +15,7 @@ Find the sample queries this project is built around [here](./cassandra/README.m
 Find the explanation for the Table structure [here](structure.md).
 
 
-All of these Files are also available as PDF in the [PDFs Folder ](./pdfs/)
+All of these Files are also available as PDF in the [PDF Folder ](./pdf/)
 
 The preprocessing python script is [here](./cassandra/startup/setup/cleaning.py) 
 
