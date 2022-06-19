@@ -15,6 +15,8 @@ const Feed = forwardRef(
 
   useEffect(() => {
     getNewTweets();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getNewTweets = async () => {
@@ -76,14 +78,14 @@ const Feed = forwardRef(
         <div className="mode_selection">
         <h4>Best</h4>
         <Switch className="switch" onChange={handleChange} 
-        checked={view=="new" ? true : false} 
+        checked={view==="new" ? true : false} 
         checkedIcon={false} uncheckedIcon={false} 
         onColor={"#50b7f5"} offColor={"#50b7f5"}/>
         <h4>New</h4>
         </div>
       </div>
 
-      <TweetBox />
+      <TweetBox user={user} />
       {loading ? <div className="loading_spinner"><TailSpin color="var(--twitter-color)" /></div> :
       <FlipMove>
         {posts.map((post) => (
