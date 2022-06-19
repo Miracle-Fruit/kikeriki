@@ -16,22 +16,22 @@ CREATE MATERIALIZED VIEW twitter.most_follows AS SELECT user_id, follower_len fr
 
 // 4. 
 // die Anzahl der Follower & die Anzahl der verfolgten Accounts
-SELECT * FROM twitter.user_stats WHERE user_id = 172883064;
+SELECT * FROM twitter.user_stats WHERE user_id = 14378300;
 // 25 neusten
 CREATE MATERIALIZED VIEW twitter.start_view_new AS SELECT user_id_x,follower_id,date_time,name,author,content,id FROM twitter.user WHERE user_id_x IS NOT NULL AND follower_id IS NOT NULL AND date_time IS NOT NULL AND id IS NOT NULL PRIMARY KEY ((user_id_x),date_time,follower_id,id);
-SELECT * FROM twitter.start_view WHERE user_id_x = 172883064 ORDER BY date_time DESC LIMIT 25; 
+SELECT * FROM twitter.start_view WHERE user_id_x = 14378300 ORDER BY date_time DESC LIMIT 25; 
 // 25 beliebtesten
 CREATE MATERIALIZED VIEW twitter.start_view_like AS SELECT user_id_x,follower_id,number_of_likes,date_time,author,name,content,id FROM twitter.user WHERE user_id_x IS NOT NULL AND follower_id IS NOT NULL AND number_of_likes IS NOT NULL AND id IS NOT NULL PRIMARY KEY ((user_id_x),number_of_likes,follower_id,id);
-SELECT * FROM twitter.start_view_like WHERE user_id_x = 172883064 ORDER BY number_of_likes DESC LIMIT 25; 
+SELECT * FROM twitter.start_view_like WHERE user_id_x = 14378300 ORDER BY number_of_likes DESC LIMIT 25; 
 
 // 5. Fan-Out as VIEW ?
 // # InvalidRequest: Error from server: code=2200 [Invalid query] message="Unknown column 'user_id_x' referenced in PRIMARY KEY for materialized view 'start_view_biber'"
 CREATE MATERIALIZED VIEW twitter.start_view_biber AS SELECT follower_id,number_of_likes,date_time,author,name,content,id FROM twitter.user WHERE user_id_x IS NOT NULL AND user_id_x=172883064 AND follower_id IS NOT NULL AND number_of_likes IS NOT NULL AND id IS NOT NULL PRIMARY KEY ((user_id_x),number_of_likes,follower_id,id);
 // # order by need partion key in WHERE
-SELECT * from twitter.start_view_biber WHERE user_id_x=172883064 ORDER BY number_of_likes DESC LIMIT 25;
+SELECT * from twitter.start_view_biber WHERE user_id_x=14378300 ORDER BY number_of_likes DESC LIMIT 25;
 // INSERT new tweet
 INSERT INTO twitter.user(user_id_x,follower_id,name,author ,content ,country ,date_time ,id ,language ,latitude ,longitude ,number_of_likes ,number_of_shares ,user_id_y )
-VALUES(172883064, 261047860, 'Justin','Twitter', 'Hallo there BDEA','DE', dateof(now()), 'NoID', 'text', 100, 100, 10000000, 0, 0);
+VALUES(14378300, 261047860, 'Justin','NoName', 'Hallo there BDEA','DE', dateof(now()), 'NoID', 'text', 100, 100, 10000000, 0, 0);
 
 // 6. Auflisten Post die ein geg. Wort enthalten (falls möglich auch mit UND-Verknüpfung mehrerer Worte)
 // # Enables SASI index creation on this node && SASI indexes are considered experimental and are not recommended for production use.
