@@ -20,7 +20,7 @@ PRIMARY KEY((user_id_x,follower_id,id))
 CREATE TABLE twitter.tweet_liked_from(
 tweet_id int,
 liked_from set<int>,
-PRIMARY KEY(user_id_x)
+PRIMARY KEY(tweet_id)
 ) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
 
 
