@@ -21,7 +21,7 @@ All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/t
         WHERE user_id is not null and follower_len is not null
         PRIMARY KEY (follower_len,user_id);
         
-        // TODO
+        SELECT user_id,follower_len FROM twitter.most_follows ORDER BY follower_len DESC;
        
 3. Finding the 100 accounts that follow the most of the accounts found in 2).
 
