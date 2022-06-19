@@ -17,6 +17,8 @@ Find the explanation for the Table structure [here](structure.md).
 
 All of these Files are also available as PDF in the [PDFs Folder ](./pdfs/)
 
+The preprocessing python script is [here](./cassandra/startup/setup/cleaning.py) 
+
 
 
 ## Architecture
