@@ -47,8 +47,5 @@ cass-ex2_3:
 scylla: ## Run ScyllaDB Cluster trough Docker Compose
 	docker-compose -f $(DC_SCYLLA) up 
 
-redis: 
+redis: ## Run Redis Cluster trough Docker Compose 
 	docker-compose -f $(DC_REDIS) up 
-
-ravendb:
-	docker-compose -f $(DC_RAVEN) up 
