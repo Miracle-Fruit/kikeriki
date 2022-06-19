@@ -4,48 +4,68 @@ import Post from "./Post";
 import FlipMove from "react-flip-move";
 import TweetBox from "./TweetBox";
 import { restURL, authToken } from "../Services/CassandraService";
+import { TailSpin } from  'react-loader-spinner'
+import Switch from "react-switch";
 
 const Feed = forwardRef(
   ({ user }, ref) => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [view, setView] = useState("new"); 
 
   useEffect(() => {
-    // const getTweetByID = async (tweetID) => {
-    //   if (authToken == null) {
-    //     setTimeout(getTweetByID, 1000, tweetID);
-    //   } else {
-    //     const response = await fetch(restURL + '/v2/keyspaces/twitter/tweets/' + tweetID, {
-    //       method: 'GET',
-    //       credentials: "include",
-    //       headers: {
-    //         'X-Cassandra-Token': authToken
-    //       }
-    //     });
-    //     const jsonData = await response.json();
-    //     setPosts([jsonData]);
-    //   }
-    // };
-
-    const getMultipleTweetsByID = async (IDList) => {
-      if (authToken == null) {
-        setTimeout(getMultipleTweetsByID, 1000, IDList);
-      } else {
-        const response = await fetch(restURL + `/v2/keyspaces/twitter/tweets?where={"id":{"$in":[${IDList.map(x => encodeURIComponent('"'+ x + '"'))}]}}`, {
-          method: 'GET',
-          credentials: "include",
-          headers: {
-            'X-Cassandra-Token': authToken
-          }
-        });
-        const jsonData = await response.json();
-        setPosts(jsonData.data);
-      }
-    };
-
-
-    //getTweetByID('4.27634e+17');
-    getMultipleTweetsByID(["4.27634e+17", "5.99669e+17"])
+    getNewTweets();
   }, [])
+
+  const getNewTweets = async () => {
+    if (authToken == null) {
+      setTimeout(getNewTweets, 1000);
+    } else {
+      const response = await fetch(restURL + 
+        `/v2/keyspaces/twitter/start_view_new?where={"user_id_x":{"$eq":[${user.userID}]}}&fields=author,number_of_likes,number_of_shares,id,content,date_time&sort={"date_time":"desc"}&page-size=100`, {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+          'X-Cassandra-Token': authToken
+        }
+      });
+      const jsonData = await response.json();
+      setPosts(jsonData.data);
+      setLoading(false)
+    }
+  };
+
+  const getBestTweets = async () => {
+    if (authToken == null) {
+      setTimeout(getBestTweets, 1000);
+    } else {
+      const response = await fetch(restURL + 
+        `/v2/keyspaces/twitter/start_view_like?where={"user_id_x":{"$eq":[${user.userID}]}}&fields=author,number_of_likes,number_of_shares,id,content,date_time&sort={"number_of_likes":"desc"}&page-size=100`, {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+          'X-Cassandra-Token': authToken
+        }
+      });
+      const jsonData = await response.json();
+      setPosts(jsonData.data);
+      setLoading(false)
+    }
+  };
+
+  function handleChange() {
+    if (view === "new") {
+      setView("best");
+      getBestTweets();
+      setLoading(true);
+      setPosts([]);
+    } else {
+      setView("new");
+      getNewTweets();
+      setLoading(true);
+      setPosts([]);
+    }
+  }
 
 
 
@@ -53,14 +73,23 @@ const Feed = forwardRef(
     <div className="feed">
       <div className="feed__header">
         <h2>Home</h2>
+        <div className="mode_selection">
+        <h4>Best</h4>
+        <Switch className="switch" onChange={handleChange} 
+        checked={view=="new" ? true : false} 
+        checkedIcon={false} uncheckedIcon={false} 
+        onColor={"#50b7f5"} offColor={"#50b7f5"}/>
+        <h4>New</h4>
+        </div>
       </div>
 
       <TweetBox />
-
+      {loading ? <div className="loading_spinner"><TailSpin color="var(--twitter-color)" /></div> :
       <FlipMove>
         {posts.map((post) => (
           <Post
             key={post.id}
+            date={post.date_time}
             displayName={post.author}
             username={post.author}
             verified={true}
@@ -71,6 +100,7 @@ const Feed = forwardRef(
           />
         ))}
       </FlipMove>
+  }
     </div>
   );
 });

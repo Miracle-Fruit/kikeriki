@@ -8,7 +8,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PublishIcon from "@mui/icons-material/Publish";
 
 const Post = forwardRef(
-  ({ displayName, username, verified, text, avatar, likes, retweets }, ref) => {
+  ({ displayName, username, verified, text, avatar, likes, retweets, date}, ref) => {
     return (
       <div className="post" ref={ref}>
         <div className="post__avatar">
@@ -22,6 +22,8 @@ const Post = forwardRef(
                 <span className="post__headerSpecial">
                   {verified && <VerifiedUserIcon className="post__badge" />} @
                   {username}
+                  <br></br>
+                  {date}
                 </span>
               </h3>
             </div>
