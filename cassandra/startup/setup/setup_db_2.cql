@@ -18,7 +18,7 @@ PRIMARY KEY((user_id_x,follower_id,id))
 
 
 CREATE TABLE twitter.tweet_liked_from(
-tweet_id int,
+tweet_id text,
 date_time timestamp,
 liked_from set<int>,
 PRIMARY KEY(tweet_id,timestamp)
