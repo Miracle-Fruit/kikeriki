@@ -12,7 +12,7 @@ const Profile = forwardRef(
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      //getOwnTweets();
+      getOwnTweets();
   
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -46,7 +46,7 @@ const Profile = forwardRef(
         <FlipMove>
           {posts.map((post) => (
           <Post
-            key={post.id}
+            key={post.id + post.date_time}
             date={post.date_time}
             displayName={post.author}
             username={post.author}

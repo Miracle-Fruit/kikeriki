@@ -10,13 +10,13 @@ Note the `MATERIALZIED VIEWS` and `CUSTOM INDEX` are already created in the [sta
 
 All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/tree/main/cassandra/startup/queries).
 
-1. Auflisten der Posts, die von einem Account gemacht wurden, bzw. ihm zugeordnet wurden
+1. Listing  all the posts made by an account.
 
         SELECT content FROM twitter.tweets where author_id = X;
 
         SELECT * FROM twitter.tweets WHERE author='katyperry' ALLOW FILTERING;
 
-2. Finden der 100 Accounts mit den meisten Followern
+2. Find the 100 accounts with the most followers
 
        CREATE MATERIALIZED VIEW twitter.most_follows AS
         SELECT user_id, follower_len from twitter.user_stats
@@ -25,18 +25,18 @@ All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/t
         
         // TODO
        
-3. Finden der 100 Accounts, die den meisten der Accounts folgen, die in 2) gefunden wurden
+3. Finding the 100 accounts that follow the most of the accounts found in 2).
 
         //TODO 
 
-4. Auflisten der Informationen für die persönliche Startseite eines beliebigen Accounts (am besten mit den in 2) gefundenen Accounts ausprobieren); die Startseite soll Folgendes beinhalten (als getrennte Queries umsetzen):
-    * die Anzahl der Follower && die Anzahl der verfolgten Accounts   
+4. Listing the information for the personal home page of any account (best try with the accounts found in 2); the start page should contain the following (implement as separate queries):
+    * the number of followers && the number of followed accounts  
        
           SELECT follower_len, follows_len FROM twitter.user_stats WHERE user_id = 14378300; //cheack user_id can be changed
     
-    * wahlweise die 25 neusten oder die 25 beliebtesten Posts der verfolgten Accounts (per DB-Abfrage)
+    * either the 25 newest or the 25 most popular posts of the followed accounts (via DB query)
 
-       25 neusten
+       25 newest
     
           CREATE MATERIALIZED VIEW twitter.start_view_new AS
             SELECT user_id_x,follower_id,number_of_likes,number_of_shares,date_time,name,author,content,id FROM twitter.user
@@ -45,7 +45,7 @@ All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/t
           
           SELECT * FROM twitter.start_view_new WHERE user_id_x = 14378300 ORDER BY date_time DESC LIMIT 25;
         
-       25 beliebtesten
+       25 most popular
        
           CREATE MATERIALIZED VIEW twitter.start_view_like AS
            SELECT user_id_x,follower_id,number_of_likes,number_of_shares,date_time,author,name,content,id FROM twitter.user
@@ -54,7 +54,7 @@ All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/t
            
           SELECT * FROM twitter.start_view_like WHERE user_id_x = 14378300 ORDER BY number_of_likes DESC LIMIT 25; 
 
-5. Caching der Posts für die Startseite (vgl. 4), erfordert einen sog. Fan-Out in den Cache jedes Followers beim Schreiben eines neuen Posts
+5. Caching of the posts for the home page (cf. 4) requires a so-called fan-out in the cache of each follower when writing a new post
 
         CREATE MATERIALIZED VIEW twitter.start_view_biber AS
          SELECT follower_id,number_of_likes,date_time,author,name,content,id FROM twitter.user 
@@ -68,7 +68,7 @@ All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/t
         VALUES
         (14378300, 261047860, 'Justin','NoName', 'Hallo there BDEA','DE', dateof(now()), 'NoID', 'text', 100, 100, 10000000, 0, 0);
         
-6. Auflisten der 25 beliebtesten Posts, die ein geg. Wort enthalten (falls möglich auch mit UND-Verknüpfung mehrerer Worte)
+6. List of the 25 most popular posts that contain a given word (if possible also with AND linking several words)
 
         // To order by the 25 most number_of_like is at our knowledge not possible with the current dataschema
         CREATE CUSTOM INDEX search_in ON twitter.tweets (content) USING 'org.apache.cassandra.index.sasi.SASIIndex'

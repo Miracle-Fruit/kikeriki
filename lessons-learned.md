@@ -4,7 +4,7 @@
 
 Lessons learned from installing Cassandra DB with Docker Compose to run a social network which loads data from Twitter.
 
-## Infrastructure
+### Infrastructure
 
 * Neo4j community version does not support clustering and further Neo4j enterprise is complex to setup in docker, still we were able to make it run but didn't end up using it and instead using Cassandra.
 * Single Cassandra Docker container need a long time to startup and load the configuration (depending on the host system), to make sure it runs everywhere without crashing we implemented a health check in Docker Compose, this was not very easy as we had to determine the right parameters through trial and error. Additionally the containers have a restart always policy in case the crash.
@@ -60,16 +60,22 @@ healthcheck:
 * To import large CSV-files is recommended to use the sstableloader or a spark cluster. Because of the time restriction we only tried out to use ready to use [cvs_to_sstable_convert](https://github.com/SPBTV/csv-to-sstable) and don't try do convert them manuly. But the data can not bet imported to the database and we getting correct fileupload with 0-files upload message.
 
 
-## Data Model
+### Data Model
 
 * When first importing the data into Cassandra we ran into the follwing problem: `Failed to import 1 rows: ParseError - Failed to parse 5.34896E+17 : invalid literal for int() with base 10: '5.34896E+17',  given up without retries 'builtin_function_or_method' object has no attribute 'error'`. In order to fix this we had to manipulate the data before the import manually.
 * We had to change the data schema a lot of times and try out driffent combination to make the querries work. We end up to use the realation table with the realationship between user_id,follower_id and tweet_id which build the primary key. So the data will be saved multiple times for eacht id and get around 45 times larger thand the orginal data. Addtionly we also use a stats table with counter to get a faster querry for the length of follower or follows. Because of the "world-search"-querry (task 6) we also add the tweets in a separate table to be able to run a index on the content col and filter with the LIKE-keyword.
 * UDTs: We tried to load the tweet as UDTs to the above data schema. To perform the this we updated the structure of the combined csv-file after [this-stackoverflow post](https://stackoverflow.com/a/34364604) but always get an error for columns missmatch. We assume the content in the UDTs was not quoted so `,` in the conent section cause these erros.
 
 
-## Other
+### Other
 
 * To optimize for read over write (as this will be our case), we set compaction to `LeveledCompactionStrategy` as recommended by the Cassandra documentation for this kind of system: `[..] WITH compaction = {'class' : 'LeveledCompactionStrategy'};`
 * Formula for replication factor as suggested by this [blog post](https://www.freecodecamp.org/news/the-apache-cassandra-beginner-tutorial/): [read-consistency-level] + [write-consistency-level] > [replication-factor]
 * Pre-sort data can be achieved by: `CLUSTERING ORDER BY (number_of_likes ASC);`
 * ..
+
+
+## Neo4j
+
+
+## Other Databases ()
