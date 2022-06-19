@@ -1,4 +1,7 @@
 # Lessons Learned
+We heard a lot about Cassandra in our BDEA class and wanted to try it out, so it was our first choice (little did we know that it wasn't really suited for the task).
+
+We also tried some other Databases more on that later in the file.
 
 ## Cassandra
 
@@ -6,7 +9,6 @@ Lessons learned from installing Cassandra DB with Docker Compose to run a social
 
 ### Infrastructure
 
-* Neo4j community version does not support clustering and further Neo4j enterprise is complex to setup in docker, still we were able to make it run but didn't end up using it and instead using Cassandra.
 * Single Cassandra Docker container need a long time to startup and load the configuration (depending on the host system), to make sure it runs everywhere without crashing we implemented a health check in Docker Compose, this was not very easy as we had to determine the right parameters through trial and error. Additionally the containers have a restart always policy in case the crash.
 ```yaml
 healthcheck:
@@ -76,6 +78,23 @@ healthcheck:
 
 
 ## Neo4j
+Lessons learned from installing Neo4j with Docker Compose and feed it with Twitter data.
 
+Because we had many problems with tha Queries in Cassandra we wanted to try another Database and choose Neo4j:
 
-## Other Databases ()
+* We realized very quickly that the free version of Neo4j (community version) does not offer the possibility to use multiple nodes in a cluster. That's why we switched to the Enterprise Edition which normaly costs some money (we only used it for this small university project, so please don't sue us).
+
+* We wrote a [Compose File](./neo4j-enterprise/docker-compose.yml) to setup a Neo4j Enterprise Cluster with 3 CORE Nodes and 1 Replica Node. Replica Nodes are only used for read operations (no writes) so we thought it would be a good idea to have one for analysis tasks to take the load away from the CORE Nodes (they also can write into the Database)
+
+* We followed this [Tutorial](https://neo4j.com/docs/operations-manual/current/docker/clustering/) but had some Problems the get the enviroment variables working in the compose file and the containers itself. After modifying our [Makefile](./Makefile) and adding the needed enviroment variabled there, it worked.
+
+* We also encountered many Problems regarding User-Permission so the Neo4j instantly shut down after starting because it could Write or Read the Folders it created. After creating this [script](./neo4j-enterprise/createFolders.sh) and running it befor starting the compose file, we fixed that.  
+
+* After these fixes the compose file worked and every cluster node started and connected to each other. But couldnt get the neo4j Browser connection to work. After some hours of trying we realised that it had something todo with our Gitpod enivormet and it only works on our local devices. Because we dont have much RAM on our devices we decided to use the neo4j Cyper-Shell on one of the CORE nodes in our gitpod eviorment.
+
+* After creating the Keyspace and copying the csv file into the Import folder, we faced a problem with the CSV import. Following the [LOAD command](./neo4j-enterprise/Readme.md) we got the following error: ```Couldn't load the external resource at file:/twitter_combined.csv```. We read many forum articles etc. but after hours we still could not get it to work, so we stopped here and focused on cassandra again.
+
+## Other Databases (Scylla and Redis)
+After some frustration about cassandra we Setup some other Database Clusters ([Scylla](./scylla/docker-compose.yml) and [Redis](./redis/docker-compose.yml)). Both clusters setups did start and seem to work but due to time constrains we again focused back to cassandra. 
+
+* If we had more time left we would try our Cassandra Queries and Script on Scylla because it also uses CQL as a Query Language and is called a faster Cassandra alternative.
