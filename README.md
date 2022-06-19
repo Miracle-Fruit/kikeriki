@@ -44,7 +44,9 @@ The react and cassandra frontend should open automaticly, if not the react front
 
 ### React Frontend
 **Imporant**
-Disable the CORS policy in your Browser, otherwise the frontend cant send API requests to the backend resulting in an not working frontend.
+
+
+**Disable the CORS policy in your Browser, otherwise the frontend cant send API requests to the backend resulting in an not working frontend.**
 
 The frontend is build with [Create React App](https://github.com/facebook/create-react-app).
 ![Frontend1](./frontend1.png)
