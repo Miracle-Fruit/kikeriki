@@ -32,7 +32,7 @@ All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/t
 4. Auflisten der Informationen für die persönliche Startseite eines beliebigen Accounts (am besten mit den in 2) gefundenen Accounts ausprobieren); die Startseite soll Folgendes beinhalten (als getrennte Queries umsetzen):
     * die Anzahl der Follower && die Anzahl der verfolgten Accounts   
        
-          SELECT * FROM twitter.user_stats WHERE user_id = 172883064; //cheack user_id can be changed
+          SELECT follower_len, follows_len FROM twitter.user_stats WHERE user_id = 172883064; //cheack user_id can be changed
     
     * wahlweise die 25 neusten oder die 25 beliebtesten Posts der verfolgten Accounts (per DB-Abfrage)
 
