@@ -17,6 +17,13 @@ PRIMARY KEY((user_id_x,follower_id,id))
 ) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
 
 
+CREATE TABLE twitter.tweet_liked_from(
+user_id int,
+liked_from set<int>,
+PRIMARY KEY(user_id_x)
+) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
+
+
 CREATE TABLE twitter.user_stats(
 user_id bigint,
 follower_len counter,
@@ -26,3 +33,4 @@ PRIMARY KEY(user_id)
 ) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
 
 COPY twitter.user_stats (user_id,follower_len,follows_len,tweet_len) FROM '/tmp/startup/data/user_stats.txt' WITH DELIMITER=',' AND HEADER=TRUE;
+
