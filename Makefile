@@ -39,10 +39,10 @@ cass: ## Run Cassandra Cluster trough Docker Compose
 	{ echo -n "REACT_APP_GITPOD_URL=" ; gp url ; }  > cassandra/app/.env
 	docker-compose -f $(DC_CASSANDRA) up
 
-cass-ex3:
+cass-ex2_3:
 	cd ./cassandra/startup/queries && \
-	docker build -t ex3 . && \
-	docker run --rm --network cassandra_spaceandtime ex3
+	docker build -t ex2_3 . && \
+	docker run --rm --network cassandra_spaceandtime ex2_3
 
 scylla: ## Run ScyllaDB Cluster trough Docker Compose
 	docker-compose -f $(DC_SCYLLA) up 

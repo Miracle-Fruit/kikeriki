@@ -1,4 +1,4 @@
 FROM python:3
-ADD exercise3.py /
+ADD exercise2_3.py /
 RUN pip install cassandra-driver
-CMD [ "python3", "./exercise3.py" ]
+CMD [ "python3", "./exercise2_3.py" ]

@@ -27,9 +27,9 @@ PRIMARY KEY(tweet_id,timestamp)
 
 CREATE TABLE twitter.user_stats(
 user_id bigint,
-follower_len counter,
-follows_len counter,
-tweet_len counter,
+follower_len int,
+follows_len int,
+tweet_len int,
 PRIMARY KEY(user_id)
 ) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
 
