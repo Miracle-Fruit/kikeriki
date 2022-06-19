@@ -43,9 +43,11 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
 4. Listing the information for the personal home page of any account (best try with the accounts found in 2); the start page should contain the following (implement as separate queries):
     * the number of followers && the number of followed accounts  
        
-          SELECT follower_len, follows_len FROM twitter.user_stats WHERE user_id = 14378300; //cheack user_id can be changed
+
+        SELECT follower_len, follows_len FROM twitter.user_stats WHERE user_id = 233248636; //cheack user_id can be changed
 
         ![result_ex4_1](../querrie_results/ex4_1.png)
+
     
     * either the 25 newest or the 25 most popular posts of the followed accounts (via DB query)
 
@@ -56,11 +58,11 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
             WHERE user_id_x IS NOT NULL AND follower_id IS NOT NULL AND date_time IS NOT NULL AND id IS NOT NULL
             PRIMARY KEY ((user_id_x),date_time,follower_id,id);
           
-          SELECT * FROM twitter.start_view_new WHERE user_id_x = 14378300 ORDER BY date_time DESC LIMIT 25;
+          SELECT * FROM twitter.start_view_new WHERE user_id_x = 172883064 ORDER BY date_time DESC LIMIT 25;
 
     ![result_ex4_2](../querrie_results/ex4_2_date.png)
 
-        
+
        25 most popular
        
           CREATE MATERIALIZED VIEW twitter.start_view_like AS
@@ -68,7 +70,7 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
            WHERE user_id_x IS NOT NULL AND follower_id IS NOT NULL AND number_of_likes IS NOT NULL AND id IS NOT NULL
            PRIMARY KEY ((user_id_x),number_of_likes,follower_id,id);
            
-          SELECT * FROM twitter.start_view_like WHERE user_id_x = 14378300 ORDER BY number_of_likes DESC LIMIT 25; 
+          SELECT * FROM twitter.start_view_like WHERE user_id_x = 172883064 ORDER BY number_of_likes DESC LIMIT 25; 
 
     ![result_ex4_2](../querrie_results/ex4_2_likes.png)
 
@@ -76,15 +78,19 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
 
         CREATE MATERIALIZED VIEW twitter.start_view_user1 AS
          SELECT follower_id,number_of_likes,date_time,author,name,content,id FROM twitter.user 
-         WHERE user_id_x IS NOT NULL AND user_id_x=14378300 AND follower_id IS NOT NULL AND number_of_likes IS NOT NULL AND id IS NOT NULL 
+         WHERE user_id_x IS NOT NULL AND user_id_x=172883064 AND follower_id IS NOT NULL AND number_of_likes IS NOT NULL AND id IS NOT NULL 
          PRIMARY KEY ((user_id_x),number_of_likes,follower_id,id);
         // # order by need partion key in WHERE
-        SELECT * from twitter.start_view_biber WHERE user_id_x=14378300 ORDER BY number_of_likes DESC LIMIT 25;
+        SELECT * from twitter.start_view_taylor WHERE user_id_x=172883064 ORDER BY number_of_likes DESC LIMIT 25;
         // INSERT new tweet
         INSERT INTO twitter.user
         (user_id_x,follower_id,name,author ,content ,country ,date_time ,id ,language ,latitude ,longitude ,number_of_likes ,number_of_shares ,user_id_y)
         VALUES
-        (14378300, 261047860, 'Justin','NoName', 'Hallo there BDEA','DE', dateof(now()), 'NoID', 'text', 100, 100, 10000000, 0, 0);
+        (172883064, 233248636, 'NoName','taylorswift12', 'Hallo there BDEA','DE', dateof(now()), 'NoID', 'de', 48, 48, 10000000, 0, 0);
+
+        INSERT INTO twitter.tweets(author, content, country, date_time, id, language, latitude, longitude, number_of_likes, number_of_shares ,author_id)
+        VALUES
+        ('taylorswift12', 'Hallo there BDEA','DE', dateof(now()), 'NoID', 'de', 48, 48, 10000000, 0, 0 '233248636');
 
     ![result_ex4_2](../querrie_results/ex4_2_likes.png)
 
@@ -95,7 +101,7 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
         CREATE CUSTOM INDEX search_in ON twitter.tweets (content) USING 'org.apache.cassandra.index.sasi.SASIIndex'
           WITH OPTIONS = {  'mode': 'CONTAINS', 'analyzer_class': 'org.apache.cassandra.index.sasi.analyzer.NonTokenizingAnalyzer',
           'case_sensitive': 'false' };
-        SELECT * from twitter.tweets WHERE content LIKE '%This%' limit 25;
+        SELECT * from twitter.tweets WHERE content LIKE '%world%' limit 25;
  
     ![result_ex4_2](../querrie_results/ex6.png)
 
