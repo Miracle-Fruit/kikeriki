@@ -10,6 +10,8 @@
 
 Find the detailed lessons learned [here](lessons-learned.md).
 
+Find the sample queries this project is built around [here](https://github.com/Miracle-Fruit/kikeriki/blob/main/cassandra/README.md).
+
 ## Architecture
 
 ### Infrastructure
