@@ -14,7 +14,7 @@ All queries can also be found [here](https://github.com/Miracle-Fruit/kikeriki/t
 
         SELECT content FROM twitter.tweets where author_id = 233248636;
 
-![result_ex1](../querrie_results/ex1.png)
+![result_ex1](../query_results/ex1.png)
 
 2. Find the 100 accounts with the most followers
 ``` python
@@ -46,7 +46,7 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
 
         SELECT follower_len, follows_len FROM twitter.user_stats WHERE user_id = 233248636; //cheack user_id can be changed
 
-        ![result_ex4_1](../querrie_results/ex4_1.png)
+        ![result_ex4_1](../query_results/ex4_1.png)
 
     
     * either the 25 newest or the 25 most popular posts of the followed accounts (via DB query)
@@ -60,7 +60,7 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
           
           SELECT * FROM twitter.start_view_new WHERE user_id_x = 172883064 ORDER BY date_time DESC LIMIT 25;
 
-    ![result_ex4_2](../querrie_results/ex4_2_date.png)
+    ![result_ex4_2](../query_results/ex4_2_date.png)
 
 
        25 most popular
@@ -72,7 +72,7 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
            
           SELECT * FROM twitter.start_view_like WHERE user_id_x = 172883064 ORDER BY number_of_likes DESC LIMIT 25; 
 
-    ![result_ex4_2](../querrie_results/ex4_2_likes.png)
+    ![result_ex4_2](../query_results/ex4_2_likes.png)
 
 5. Caching of the posts for the home page (cf. 4) requires a so-called fan-out in the cache of each follower when writing a new post
 
@@ -92,7 +92,7 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
         VALUES
         ('taylorswift12', 'Hallo there BDEA','DE', dateof(now()), 'NoID', 'de', 48, 48, 10000000, 0, 0 '233248636');
 
-    ![result_ex4_2](../querrie_results/ex4_2_likes.png)
+    ![result_ex4_2](../query_results/ex4_2_likes.png)
 
         
 6. List of the 25 most popular posts that contain a given word (if possible also with AND linking several words)
@@ -103,5 +103,5 @@ print("100 accounts that follow the most of the accounts found in 2)",followed_t
           'case_sensitive': 'false' };
         SELECT * from twitter.tweets WHERE content LIKE '%world%' limit 25;
  
-    ![result_ex4_2](../querrie_results/ex6.png)
+    ![result_ex4_2](../query_results/ex6.png)
 
