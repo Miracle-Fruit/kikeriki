@@ -47,6 +47,14 @@ The frontend is build with [Create React App](https://github.com/facebook/create
 ![Frontend2](./frontend2.png)
 It runs on Port 3001
 
+It supports the following features:
+* Login with userID and username
+* View your feed sorted by likes or date (see kikerikis of people you follow)
+* View your profile to see your kikerikis sorted by date and to see your follower and follows count
+* Send new kikerikis
+
+
+
 ### Cassandra Cluster Details
 
 Cassandra Cluster with three nodes can be accessed via web the interface at http://localhost:3000/
